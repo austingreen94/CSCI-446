@@ -1,33 +1,26 @@
-
-import java.util.Arrays;
 import java.util.Random;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
  * @author KayZeus
+ * @author Jordan Parr
+ * @author Austin Green
+ * 
  */
 public class GraphGen {
-    public Points[] pointArray;
-    public Edges[] edgeArray;
-    Points point;
-    Edges edge;
+    public Point[] pointArray;
+    Point point;
     
     public int squareDimension = 0;
     public int numPoints = 0;
-    double distance;
    
     public GraphGen(){
 
     }
     
-    public void setNumPoints(){
-        numPoints = 4; //Not sure how number will be entered by user. Ask Prof.
+    public void setNumPoints(int amountPoints){
+        // 4 is test number
+        numPoints = amountPoints; //Not sure how number will be entered by user. Ask Prof.
         
     }
     
@@ -44,16 +37,16 @@ public class GraphGen {
     }
     
     public void createNodes(){
-        setNumPoints();
+        setNumPoints(10);
         setDimension();
-        pointArray = new Points[getNumPoints()];
+        pointArray = new Point[getNumPoints()];
         for (int index = 0; index < numPoints; index++){
-            point = new Points(getDimension());
+            point = new Point(getDimension(), index);
             pointArray[index] = point;            
         }
         
         //test print of coordinates
-        System.out.println("Point Coord\n");
+        System.out.println("Point Coord");
         for(int p = 0; p < numPoints; p++){
         System.out.println(pointArray[p].xCoor + " " + pointArray[p].yCoor);
         }
@@ -62,52 +55,74 @@ public class GraphGen {
     //Edge Creation:
     
     public void setEdges(){
-        for (int i = 0; i < getNumPoints(); i ++){
+        for (int i = 0; i < 100; i ++){
             findNeighbor(pickPoint());
         }
     }
     
+    // Method to pick a random Point within the graph
     public int pickPoint(){
         int randomPoint;
         Random rn = new Random();
-        randomPoint = rn.nextInt(getNumPoints() - 0) + 0;
-        System.out.println(randomPoint);
+        randomPoint = rn.nextInt(getNumPoints());
+        System.out.println("Random Point: " + pointArray[randomPoint].index);
         return randomPoint;               
     }
-    
+
     public void findNeighbor(int randomPoint){
-        boolean edgePlace = false;
-        int count = 0;
-        while (!edgePlace && count < getNumPoints()){
-            if(count == randomPoint){
-                //can't be its own neighbor
+        Point chosenPoint = pointArray[randomPoint];
+        double minDistance = Double.MAX_VALUE;
+        Point closestPoint = pointArray[randomPoint];
+        for(int i = 0; i < pointArray.length; i++){
+        
+            if(i == randomPoint){
+                System.out.println("Same Point");
+                break;
             }
-            else{
-                if(checkConnection()){
-                    if((pointArray[randomPoint].xCoor- pointArray[count].xCoor) == 0){
-                        distance = (pointArray[randomPoint].yCoor - 
-                        pointArray[count].yCoor);
-                    }
-                    else{
-                        distance = (pointArray[randomPoint].yCoor - 
-                        pointArray[count].yCoor)/(pointArray[randomPoint].xCoor
-                        - pointArray[count].xCoor);
-                    }
-                    count++;
-                    System.out.println("Distance Between Points:\n" + distance);
-                
+            else if(!checkConnection(pointArray[i], chosenPoint) && !overlap()){
+                // Calculate distance    
+                double x = Math.pow((chosenPoint.xCoor - pointArray[i].xCoor), 2);
+                double y = Math.pow((chosenPoint.yCoor - pointArray[i].yCoor), 2);
+                double distance = Math.sqrt(x + y);
+                System.out.println("Distance Between Points:\n" + distance);
+                    
+                if(distance < minDistance){
+                    minDistance = distance;
+                    closestPoint = pointArray[i];
+                }
             }
-            }
-            
-            if(!overlap()){
-            edgePlace = true;
+         }
+        if(closestPoint.index == pointArray[randomPoint].index){
+            // Same Point
+        } else {
+            // Add edge between current Point and closest Point
+            System.out.println("Lowest Distance = " + minDistance);
+            System.out.println("Closest Node = " + closestPoint.xCoor + " " + closestPoint.yCoor);
+            chosenPoint.connectedPoints.add(closestPoint);
         }
-        }
+        // Prints out adjacency list for each Point's connections
+        System.out.println("\nEdges\n");
+            for(int i = 0; i < pointArray.length; i++){
+                pointArray[i].printPoint();
+                System.out.print(": ");
+                for(int j = 0; j < pointArray[i].connectedPoints.size(); j++){
+                    pointArray[i].connectedPoints.get(j).printPoint();
+                    System.out.print(", ");
+                }
+                System.out.println();
+            }
         
     }
     
-    public boolean checkConnection(){
-        return true;//default setting
+    
+    // Method to check if an edge between two Points already exists
+    public boolean checkConnection(Point check, Point randomPoint){
+        for(int i = 0; i < randomPoint.connectedPoints.size(); i++){
+            if(randomPoint.connectedPoints.get(i).index == check.index){
+                return true;
+            }
+        }
+        return false;//default setting
     }
     public boolean overlap(){
         return false;//default setting
