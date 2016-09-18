@@ -37,7 +37,7 @@ public class GraphGen {
     }
     
     public void createNodes(){
-        setNumPoints(10);
+        setNumPoints(4);
         setDimension();
         pointArray = new Point[getNumPoints()];
         for (int index = 0; index < numPoints; index++){
@@ -55,7 +55,7 @@ public class GraphGen {
     //Edge Creation:
     
     public void setEdges(){
-        for (int i = 0; i < 100; i ++){
+        for (int i = 0; i < 10; i ++){
             findNeighbor(pickPoint());
         }
     }
@@ -79,7 +79,7 @@ public class GraphGen {
                 System.out.println("Same Point");
                 break;
             }
-            else if(!checkConnection(pointArray[i], chosenPoint) && !overlap()){
+            else if(!checkConnection(pointArray[i], chosenPoint) && !overlap(pointArray[i], chosenPoint)){
                 // Calculate distance    
                 double x = Math.pow((chosenPoint.xCoor - pointArray[i].xCoor), 2);
                 double y = Math.pow((chosenPoint.yCoor - pointArray[i].yCoor), 2);
@@ -124,7 +124,42 @@ public class GraphGen {
         }
         return false;//default setting
     }
-    public boolean overlap(){
+    // Method to check for overlap between the potential edge and the edges already in
+    //position in the graph
+    public boolean overlap(Point check, Point randomPoint){
+        double A1 = check.yCoor - randomPoint.yCoor;
+        double B1 = check.xCoor - randomPoint.xCoor;
+        double C1 = (A1 * randomPoint.xCoor) + (B1 * randomPoint.yCoor);
+        
+        for(int i = 0; i < pointArray.length; i++){
+            for(int j = 0; j < pointArray[i].connectedPoints.size(); j++){
+                Point startPoint = pointArray[i];
+                Point endPoint = pointArray[i].connectedPoints.get(j);
+                double A2 = endPoint.yCoor - startPoint.yCoor;
+                double B2 = endPoint.xCoor - startPoint.xCoor;
+                double C2 = (A2 * startPoint.xCoor) + (B2 * startPoint.yCoor);
+                
+                double det = (A1 * B2) - (A2 * B1);
+                if(det == 0){
+                    return false;
+                } else {
+                    double x = (B2 * C1 - B1 * C2) / det;
+                    double y = (A1 * C2 - A2 * C1) / det;
+                    if(Math.min(startPoint.xCoor, randomPoint.xCoor) <= x || x <= Math.max(startPoint.xCoor, randomPoint.xCoor)){
+                        if(Math.min(startPoint.yCoor, randomPoint.yCoor) <= y || y <= Math.max(startPoint.yCoor, randomPoint.yCoor)){
+                            // Test printing for overlapping segments
+                            System.out.print("Overlap with segment: ");
+                            startPoint.printPoint();
+                            System.out.print(" -> ");
+                            endPoint.printPoint();
+                            System.out.println();
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        
         return false;//default setting
     }
 }
