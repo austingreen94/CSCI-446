@@ -1,4 +1,7 @@
 import java.util.Random;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -9,17 +12,19 @@ import java.util.Random;
  */
 public class GraphGen {
     public Point[] pointArray;
-    Point point;
+    //Point point;
     
     public int squareDimension = 0;
     public int numPoints = 0;
+    
+    List<Point> finishedPoints = new ArrayList<Point>();
    
     public GraphGen(){
-
+        
     }
     
     public void setNumPoints(int amountPoints){
-        // 4 is test number
+        // 10 is test number
         numPoints = amountPoints; //Not sure how number will be entered by user. Ask Prof.
         
     }
@@ -37,25 +42,35 @@ public class GraphGen {
     }
     
     public void createNodes(){
-        setNumPoints(4);
+        setNumPoints(10);
         setDimension();
         pointArray = new Point[getNumPoints()];
+        Point newPoint;
+        boolean identicalCoords=false;
         for (int index = 0; index < numPoints; index++){
-            point = new Point(getDimension(), index);
-            pointArray[index] = point;            
+            do{
+                identicalCoords=false;
+                newPoint = new Point(getDimension(), index);
+                for (int j = 0; j < index; j++){
+                    if(newPoint.xCoor == pointArray[j].xCoor && newPoint.yCoor == pointArray[j].yCoor){
+                        identicalCoords=true;
+                    }
+                }
+            }while(identicalCoords);
+            pointArray[index] = newPoint;            
         }
         
         //test print of coordinates
         System.out.println("Point Coord");
         for(int p = 0; p < numPoints; p++){
-        System.out.println(pointArray[p].xCoor + " " + pointArray[p].yCoor);
+            System.out.println(pointArray[p].xCoor + " " + pointArray[p].yCoor);
         }
     }
     
     //Edge Creation:
     
     public void setEdges(){
-        for (int i = 0; i < 10; i ++){
+        while(finishedPoints.size() < numPoints) {
             findNeighbor(pickPoint());
         }
     }
@@ -63,8 +78,10 @@ public class GraphGen {
     // Method to pick a random Point within the graph
     public int pickPoint(){
         int randomPoint;
-        Random rn = new Random();
-        randomPoint = rn.nextInt(getNumPoints());
+        do{
+            Random rn = new Random();
+            randomPoint = rn.nextInt(getNumPoints());
+        }while(finishedPoints.contains(pointArray[randomPoint]));
         System.out.println("Random Point: " + pointArray[randomPoint].index);
         return randomPoint;               
     }
@@ -74,12 +91,9 @@ public class GraphGen {
         double minDistance = Double.MAX_VALUE;
         Point closestPoint = pointArray[randomPoint];
         for(int i = 0; i < pointArray.length; i++){
-        
             if(i == randomPoint){
-                System.out.println("Same Point");
-                break;
-            }
-            else if(!checkConnection(pointArray[i], chosenPoint) && !overlap(pointArray[i], chosenPoint)){
+                
+            }else if(!checkConnection(pointArray[i], chosenPoint) && !overlap(randomPoint, i)){
                 // Calculate distance    
                 double x = Math.pow((chosenPoint.xCoor - pointArray[i].xCoor), 2);
                 double y = Math.pow((chosenPoint.yCoor - pointArray[i].yCoor), 2);
@@ -92,25 +106,28 @@ public class GraphGen {
                 }
             }
          }
-        if(closestPoint.index == pointArray[randomPoint].index){
-            // Same Point
+        if(closestPoint.index == randomPoint){
+            // Same Point, gets here if no other point in the whole set was found
+            System.out.println("Same Point");
+            finishedPoints.add(chosenPoint);
         } else {
             // Add edge between current Point and closest Point
             System.out.println("Lowest Distance = " + minDistance);
             System.out.println("Closest Node = " + closestPoint.xCoor + " " + closestPoint.yCoor);
             chosenPoint.connectedPoints.add(closestPoint);
+            closestPoint.connectedPoints.add(chosenPoint);
         }
         // Prints out adjacency list for each Point's connections
         System.out.println("\nEdges\n");
-            for(int i = 0; i < pointArray.length; i++){
-                pointArray[i].printPoint();
-                System.out.print(": ");
-                for(int j = 0; j < pointArray[i].connectedPoints.size(); j++){
-                    pointArray[i].connectedPoints.get(j).printPoint();
-                    System.out.print(", ");
-                }
-                System.out.println();
+        for(int i = 0; i < pointArray.length; i++){
+            pointArray[i].printPoint();
+            System.out.print(": ");
+            for(int j = 0; j < pointArray[i].connectedPoints.size(); j++){
+                pointArray[i].connectedPoints.get(j).printPoint();
+                System.out.print(", ");
             }
+            System.out.println();
+        }
         
     }
     
@@ -119,47 +136,36 @@ public class GraphGen {
     public boolean checkConnection(Point check, Point randomPoint){
         for(int i = 0; i < randomPoint.connectedPoints.size(); i++){
             if(randomPoint.connectedPoints.get(i).index == check.index){
+                System.out.println("found theres already a connection between "+randomPoint.xCoor+","+randomPoint.yCoor+" and "+check.xCoor+","+check.yCoor);
                 return true;
             }
         }
         return false;//default setting
     }
-    // Method to check for overlap between the potential edge and the edges already in
-    //position in the graph
-    public boolean overlap(Point check, Point randomPoint){
-        double A1 = check.yCoor - randomPoint.yCoor;
-        double B1 = check.xCoor - randomPoint.xCoor;
-        double C1 = (A1 * randomPoint.xCoor) + (B1 * randomPoint.yCoor);
-        
-        for(int i = 0; i < pointArray.length; i++){
-            for(int j = 0; j < pointArray[i].connectedPoints.size(); j++){
-                Point startPoint = pointArray[i];
-                Point endPoint = pointArray[i].connectedPoints.get(j);
-                double A2 = endPoint.yCoor - startPoint.yCoor;
-                double B2 = endPoint.xCoor - startPoint.xCoor;
-                double C2 = (A2 * startPoint.xCoor) + (B2 * startPoint.yCoor);
-                
-                double det = (A1 * B2) - (A2 * B1);
-                if(det == 0){
-                    return false;
-                } else {
-                    double x = (B2 * C1 - B1 * C2) / det;
-                    double y = (A1 * C2 - A2 * C1) / det;
-                    if(Math.min(startPoint.xCoor, randomPoint.xCoor) <= x || x <= Math.max(startPoint.xCoor, randomPoint.xCoor)){
-                        if(Math.min(startPoint.yCoor, randomPoint.yCoor) <= y || y <= Math.max(startPoint.yCoor, randomPoint.yCoor)){
-                            // Test printing for overlapping segments
-                            System.out.print("Overlap with segment: ");
-                            startPoint.printPoint();
-                            System.out.print(" -> ");
-                            endPoint.printPoint();
-                            System.out.println();
-                            return true;
-                        }
+    public boolean overlap(int p1, int p2){
+        int x1 = pointArray[p1].xCoor;
+        int y1 = pointArray[p1].yCoor;
+        int x2 = pointArray[p2].xCoor;
+        int y2 = pointArray[p2].yCoor;
+        for (int i = 0; i < pointArray.length; i++){
+            if (i == p1 || i == p2){
+                // do nothing
+            }else{
+                int x3 = pointArray[i].xCoor;
+                int y3 = pointArray[i].yCoor;
+                int x4;
+                int y4;
+                for (int j = 0; j<pointArray[i].connectedPoints.size(); j++){
+                    x4 = pointArray[i].connectedPoints.get(j).xCoor;
+                    y4 = pointArray[i].connectedPoints.get(j).yCoor;
+                    if (pointArray[i].connectedPoints.get(j).index == p1 || pointArray[i].connectedPoints.get(j).index == p2){
+                        // do nothing
+                    }else if(Line2D.linesIntersect(x1, y1, x2, y2, x3, y3, x4, y4)){
+                        return true;
                     }
                 }
             }
         }
-        
-        return false;//default setting
+        return false;
     }
 }
