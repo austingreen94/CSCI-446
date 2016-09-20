@@ -1,4 +1,13 @@
 # CSCI-446 README
-Austin Branch Test
+Main Branch Test
 
-https://www.topcoder.com/community/data-science/data-science-tutorials/geometry-concepts-line-intersection-and-its-applications/
+-Jordan
+
+Fixed bug where points had the possibility of choosing the same coords
+
+Finished GraphGen class to find all possible connections until no more could be found
+
+Added to Main a JFrame object to hold all GUI objects
+
+Added a DrawPanel class extending JPanel that makes circles on all places there are points and then lines on all edges.
+
