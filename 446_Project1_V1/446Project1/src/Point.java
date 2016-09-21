@@ -14,6 +14,8 @@ public class Point {
     int yCoor;
     int index;
     List<Point> connectedPoints = new ArrayList<Point>();
+    // 0 = UNCOLORED, 1 = RED, 2 = GREEN, 3 = BLUE, 4 = YELLOW
+    int color = 0;
     
     public Point(int squareDimension, int index){
         Random rn = new Random();
