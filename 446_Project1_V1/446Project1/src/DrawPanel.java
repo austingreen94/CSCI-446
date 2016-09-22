@@ -11,7 +11,10 @@ public class DrawPanel extends JPanel{
     DrawPanel(List<Point> inPoints){
         points = inPoints;
     }
-    
+    //sets points
+    public void setPoints(List<Point> inPoints){
+        points = inPoints;
+    }
     //prints out the points and their connections
     public void paintComponent (Graphics g){
         super.paintComponent(g);

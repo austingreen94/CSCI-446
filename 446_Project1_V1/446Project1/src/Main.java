@@ -17,13 +17,19 @@ public class Main {
         //Generates Jframe to a certain size
         //JPanel is made which stores all the drawing of the objects
         DrawPanel panel = new DrawPanel(Graph.finishedPoints);
-        JFrame application = new JFrame();
+        JFrame application = new JFrame("Original");
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         application.add(panel);
         application.setSize (Graph.squareDimension*50+30, Graph.squareDimension*50+50);
         application.setVisible(true);
         
-        ColoringAlgorithms algorithms = new ColoringAlgorithms(Graph.finishedPoints);
+        long i=0;
+        while(i<100000){
+            i++;
+            System.out.println(i);
+        }
+        
+        MinConflicts algorithms = new MinConflicts(Graph.finishedPoints);
         // Max number of runs = 10000 & 4 colors being used
         int minConflictSuccess = algorithms.minConflicts(10000, 4);
         if(minConflictSuccess != -1){
@@ -31,15 +37,18 @@ public class Main {
         } else {
             System.out.println("Min_Conflicts Unsuccessful");
         }
-        
         // Panel after Min_Conflicts algorithm has ran
-        DrawPanel panel2 = new DrawPanel(Graph.finishedPoints);
-        JFrame application2 = new JFrame();
-        application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        application.add(panel);
-        application.setSize (Graph.squareDimension*50+30, Graph.squareDimension*50+50);
-        application.setVisible(true);
+        JFrame app2 = new JFrame("minConflicts");
+        app2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        app2.add(panel);
+        app2.setSize (Graph.squareDimension*50+30, Graph.squareDimension*50+50);
+        app2.setVisible(true);
         // Reset graph
-        //algorithms.resetGraph();
+        i=0;
+        while(i<100000){
+            i++;
+            System.out.println(i);
+        }
+        algorithms.resetGraph();
     }
 }
