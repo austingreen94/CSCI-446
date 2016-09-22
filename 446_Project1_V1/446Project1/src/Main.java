@@ -29,9 +29,9 @@ public class Main {
             System.out.println(i);
         }
         
-        MinConflicts algorithms = new MinConflicts(Graph.finishedPoints);
+        MinConflicts minConflicts = new MinConflicts(Graph.finishedPoints);
         // Max number of runs = 10000 & 4 colors being used
-        int minConflictSuccess = algorithms.minConflicts(10000, 4);
+        int minConflictSuccess = minConflicts.minConflicts(10000, 4);
         if(minConflictSuccess != -1){
             System.out.println("Number of Decisions of Min_Conflicts = " + minConflictSuccess);
         } else {
@@ -49,6 +49,6 @@ public class Main {
             i++;
             System.out.println(i);
         }
-        algorithms.resetGraph();
+        minConflicts.resetGraph();
     }
 }
