@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 public class Main {
 
     static GraphGen[] graphs = new GraphGen[10];
+    static int maxDecisions = 10000;
     
     public static void resetColors(){
         for(int i = 0; i < graphs.length; i++){
@@ -42,7 +43,7 @@ public class Main {
         System.out.println("3 Colors Min-Conflicts:");
         MinConflicts minConflicts = new MinConflicts(graphs[0].finishedPoints);
         // Max number of runs = 10000 & 4 colors being used
-        int minConflictSuccess = minConflicts.minConflicts(10000, 3);
+        int minConflictSuccess = minConflicts.minConflicts(maxDecisions, 3);
         if(minConflictSuccess != -1){
             System.out.println("Number of Points: " + graphs[0].finishedPoints.size() + "\nNumber of Decisions of Min_Conflicts = " + minConflictSuccess + "\n");
         } else {
@@ -54,19 +55,18 @@ public class Main {
         app2.add(panel);
         app2.setSize (graphs[0].squareDimension*50+30, graphs[0].squareDimension*50+50);
         app2.setVisible(true);
-        // Reset graph
         TimeUnit.SECONDS.sleep(1);
         
         // 3 Colors MinConflicts
         for(int i = 1; i < graphs.length; i++){
             MinConflicts algorithms2 = new MinConflicts(graphs[i].finishedPoints);
-            int minConflictSuccess2 = algorithms2.minConflicts(10000, 3);
+            int minConflictSuccess2 = algorithms2.minConflicts(maxDecisions, 3);
             if(minConflictSuccess2 != -1){
                 System.out.println("Number of Points: " + graphs[i].finishedPoints.size() + "\nNumber of Decisions of Min_Conflicts = " + minConflictSuccess2 + "\n");
             } else {
                 System.out.println("Number of Points: " + graphs[i].finishedPoints.size() + "\nMin_Conflicts Unsuccessful with 10000 cycles\n");
             }
-            //resetColors();
+           
         }
         resetColors();
         
@@ -74,19 +74,20 @@ public class Main {
         System.out.println("4 Colors Min-Conflicts:");
         for(int i = 0; i < graphs.length; i++){
             MinConflicts algorithms2 = new MinConflicts(graphs[i].finishedPoints);
-            int minConflictSuccess2 = algorithms2.minConflicts(10000, 4);
+            int minConflictSuccess2 = algorithms2.minConflicts(maxDecisions, 4);
             if(minConflictSuccess2 != -1){
                 System.out.println("Number of Points: " + graphs[i].finishedPoints.size() + "\nNumber of Decisions of Min_Conflicts = " + minConflictSuccess2 + "\n");
             } else {
                 System.out.println("Number of Points: " + graphs[i].finishedPoints.size() + "\nMin_Conflicts Unsuccessful with 10000 cycles\n");
             }
-            //resetColors();
+            
         }
         resetColors();
         
         //initialize backtracking
+        System.out.println("3 Colors Backtracking:");
         Backtracking back = new Backtracking(graphs[0].finishedPoints);
-        int decisions = back.init(4); //4 color types
+        int decisions = back.init(3); //4 color types
         System.out.println("Number of Decisions of Simple Backtracking = " + decisions);
         //make new frame for backtracking
         JFrame app3 = new JFrame("Backtracking");
@@ -94,18 +95,29 @@ public class Main {
         app3.add(panel);
         app3.setSize (graphs[0].squareDimension*50+30, graphs[0].squareDimension*50+50);
         app3.setVisible(true);
-        //reset graph
+       
         TimeUnit.SECONDS.sleep(1);
-        //minConflicts.resetGraph();
+       
+        
         for(int i = 1; i < graphs.length; i++){
+            Backtracking back2 = new Backtracking(graphs[i].finishedPoints);
+            decisions = back2.init(3); //4 color types
+            System.out.println("Number of Decisions of Simple Backtracking = " + decisions);
+            
+        }
+        resetColors();
+        
+        System.out.println("4 Color Backtracking:");
+        for(int i = 0; i < graphs.length; i++){
             Backtracking back2 = new Backtracking(graphs[i].finishedPoints);
             decisions = back2.init(4); //4 color types
             System.out.println("Number of Decisions of Simple Backtracking = " + decisions);
-            //back2.resetGraph();
+            
         }
         resetColors();
         
         //initialize backtrackingFC
+        System.out.println("3 Color Backtracking with Forward Checking:");
         BacktrackingFC backFC = new BacktrackingFC(graphs[0].finishedPoints);
         decisions = backFC.init(4); //4 color types
         System.out.println("Number of Decisions of Backtracking with Forward Checking= " + decisions);
@@ -118,15 +130,25 @@ public class Main {
         //reset graph
         TimeUnit.SECONDS.sleep(1);
         //minConflicts.resetGraph();
+       
         for(int i = 1; i < graphs.length; i++){
-            BacktrackingFC backFC2 = new BacktrackingFC(graphs[0].finishedPoints);
-            decisions = backFC.init(4); //4 color types
+            BacktrackingFC backFC2 = new BacktrackingFC(graphs[i].finishedPoints);
+            decisions = backFC2.init(3); //4 color types
+            System.out.println("Number of Decisions of Backtracking with Forward Checking= " + decisions);
+        }
+        resetColors();
+        
+        System.out.println("4 Color Backtracking with Forward Checking:");
+        for(int i = 0; i < graphs.length; i++){
+            BacktrackingFC backFC2 = new BacktrackingFC(graphs[i].finishedPoints);
+            decisions = backFC2.init(4); //4 color types
             System.out.println("Number of Decisions of Backtracking with Forward Checking= " + decisions);
         }
         resetColors();
         
         
         //initialize backtrackingMAC
+        System.out.println("3 Color Backtracking with MAC:");
         BacktrackingMAC backMAC = new BacktrackingMAC(graphs[0].finishedPoints);
         decisions = backMAC.init(4); //4 color types
         System.out.println("Number of Decisions of Backtracking with Constant Propagation= " + decisions);
@@ -139,8 +161,24 @@ public class Main {
         //reset graph
         TimeUnit.SECONDS.sleep(1);
         //algorithms.resetGraph();
+        
+        
+        for(int i = 1; i < graphs.length; i++){
+            BacktrackingMAC backMAC2 = new BacktrackingMAC(graphs[0].finishedPoints);
+            decisions = backMAC2.init(3); //4 color types
+            System.out.println("Number of Decisions of Backtracking with Constant Propagation= " + decisions);
+        }
+        resetColors();
+        
+        System.out.println("4 Color Backtracking with MAC:");
+        for(int i = 0; i < graphs.length; i++){
+            BacktrackingMAC backMAC2 = new BacktrackingMAC(graphs[0].finishedPoints);
+            decisions = backMAC2.init(4); //4 color types
+            System.out.println("Number of Decisions of Backtracking with Constant Propagation= " + decisions);
+        }
+        resetColors();
     
-        //GeneticAlgorithm genetic = new GeneticAlgorithm();
+       //GeneticAlgorithm genetic = new GeneticAlgorithm();
        //genetic.geneticAlgorithm(graphs[0]);
     }
     

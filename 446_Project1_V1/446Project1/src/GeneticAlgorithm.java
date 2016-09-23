@@ -135,7 +135,7 @@ public  class GeneticAlgorithm {
 //    }
     
     public void geneticAlgorithm(GraphGen graph){
-        List<GraphGen> population = populationCreator(10, 3, graph); // Create Population
+        List<GraphGen> population = populationCreator(100, 3, graph); // Create Population
         eachGraphConflicts(population); // Save number of conflicts for each graph in population
         //System.out.println(population.size()); // Test
         //List<GraphGen> sortedPopulation = sortPopulationConflicts(population); // Sort graphs by lowest number of conflicts
@@ -153,22 +153,28 @@ public  class GeneticAlgorithm {
                 //System.out.println(loops);
                 newPopulation.add(child);
             }
-            population = newPopulation.subList(0, newPopulation.size());
-            //population = temp;
+            //population = newPopulation.subList(0, newPopulation.size());
+            population.clear();
+            for(int i = 0; i < newPopulation.size(); i++){
+                GraphGen newGraph = newPopulation.get(i);
+                population.add(newGraph);
+            }
             newPopulation.clear();
+            //population = temp;
+            //newPopulation.clear();
             eachGraphConflicts(population);
             //sortedPopulation = sortPopulationConflicts(population);
             loops++;
         }
         //GraphGen bestIndividual = sortedPopulation.get(0);
         for(int i = 0; i < population.size(); i++){
-            if(newPopulation.get(i).geneticConflicts == 0){
+            if(population.get(i).geneticConflicts == 0){
                 System.out.println("Best Individual");
             }
         }
         if(loops == 10000){
             System.out.println(loops);
-        }
-        System.out.println(); // Testing
+        } 
+        System.out.println("End"); // Testing
     }
 }
