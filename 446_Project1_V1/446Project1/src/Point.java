@@ -19,8 +19,8 @@ public class Point {
     
     public Point(int squareDimension, int index){
         Random rn = new Random();
-        xCoor = rn.nextInt(squareDimension + 1) + 0;
-        yCoor = rn.nextInt(squareDimension + 1) + 0;
+        xCoor = rn.nextInt(squareDimension + 1);
+        yCoor = rn.nextInt(squareDimension + 1);
         this.index = index;
     }
   

@@ -18,6 +18,8 @@ public class GraphGen {
     public int numPoints = 0;
     
     List<Point> finishedPoints = new ArrayList<Point>();
+    
+    int geneticConflicts = 0;
    
     public GraphGen(){
         

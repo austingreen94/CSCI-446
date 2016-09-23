@@ -7,7 +7,7 @@ import java.util.Random;
 
 /**
  *
- * @author Austin
+ * @author Austin Green
  */
 public class MinConflicts {
     
