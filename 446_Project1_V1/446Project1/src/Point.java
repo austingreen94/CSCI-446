@@ -16,6 +16,8 @@ public class Point {
     List<Point> connectedPoints = new ArrayList<Point>();
     // 0 = UNCOLORED, 1 = RED, 2 = GREEN, 3 = BLUE, 4 = YELLOW
     int color = 0;
+    int legalMoves=0;
+    List<Point> conflicts = new ArrayList<Point>();
     
     public Point(int squareDimension, int index){
         Random rn = new Random();
