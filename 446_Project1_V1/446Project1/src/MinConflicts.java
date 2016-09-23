@@ -93,7 +93,7 @@ public class MinConflicts {
         for(int i = 0; i < max_steps; i++){
             conflictList = checkConflicts();
             int conflictCount = conflictList.size() / 2;
-            System.out.println("Number of Conflicts: " + conflictCount);
+            //System.out.println("Number of Conflicts: " + conflictCount);
             if(conflictList.isEmpty()){
                 return numDecisions;
             } else {

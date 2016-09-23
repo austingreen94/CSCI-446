@@ -36,7 +36,7 @@ public class GraphGen {
     }
     
     public void setDimension(){
-        squareDimension = 10;
+        squareDimension = 20;
     }
     
     public int getDimension(){
@@ -44,7 +44,6 @@ public class GraphGen {
     }
     
     public void createNodes(){
-        setNumPoints(10);
         setDimension();
         pointArray = new Point[getNumPoints()];
         Point newPoint;
@@ -63,10 +62,10 @@ public class GraphGen {
         }
         
         //test print of coordinates
-        System.out.println("Point Coord");
-        for(int p = 0; p < numPoints; p++){
-            System.out.println(pointArray[p].xCoor + " " + pointArray[p].yCoor);
-        }
+//        System.out.println("Point Coord");
+//        for(int p = 0; p < numPoints; p++){
+//            System.out.println(pointArray[p].xCoor + " " + pointArray[p].yCoor);
+//        }
     }
     
     //Edge Creation:
@@ -84,7 +83,7 @@ public class GraphGen {
             Random rn = new Random();
             randomPoint = rn.nextInt(getNumPoints());
         }while(finishedPoints.contains(pointArray[randomPoint]));
-        System.out.println("Random Point: " + pointArray[randomPoint].index);
+        //System.out.println("Random Point: " + pointArray[randomPoint].index);
         return randomPoint;               
     }
 
@@ -100,7 +99,7 @@ public class GraphGen {
                 double x = Math.pow((chosenPoint.xCoor - pointArray[i].xCoor), 2);
                 double y = Math.pow((chosenPoint.yCoor - pointArray[i].yCoor), 2);
                 double distance = Math.sqrt(x + y);
-                System.out.println("Distance Between Points:\n" + distance);
+                //System.out.println("Distance Between Points:\n" + distance);
                     
                 if(distance < minDistance){
                     minDistance = distance;
@@ -110,26 +109,26 @@ public class GraphGen {
          }
         if(closestPoint.index == randomPoint){
             // Same Point, gets here if no other point in the whole set was found
-            System.out.println("Same Point");
+            //System.out.println("Same Point");
             finishedPoints.add(chosenPoint);
         } else {
             // Add edge between current Point and closest Point
-            System.out.println("Lowest Distance = " + minDistance);
-            System.out.println("Closest Node = " + closestPoint.xCoor + " " + closestPoint.yCoor);
+            //System.out.println("Lowest Distance = " + minDistance);
+            //System.out.println("Closest Node = " + closestPoint.xCoor + " " + closestPoint.yCoor);
             chosenPoint.connectedPoints.add(closestPoint);
             closestPoint.connectedPoints.add(chosenPoint);
         }
         // Prints out adjacency list for each Point's connections
-        System.out.println("\nEdges\n");
-        for(int i = 0; i < pointArray.length; i++){
-            pointArray[i].printPoint();
-            System.out.print(": ");
-            for(int j = 0; j < pointArray[i].connectedPoints.size(); j++){
-                pointArray[i].connectedPoints.get(j).printPoint();
-                System.out.print(", ");
-            }
-            System.out.println();
-        }
+        //System.out.println("\nEdges\n");
+//        for(int i = 0; i < pointArray.length; i++){
+//            pointArray[i].printPoint();
+//            //System.out.print(": ");
+//            for(int j = 0; j < pointArray[i].connectedPoints.size(); j++){
+//                pointArray[i].connectedPoints.get(j).printPoint();
+//                //System.out.print(", ");
+//            }
+//            System.out.println();
+//        }
         
     }
     
@@ -138,7 +137,7 @@ public class GraphGen {
     public boolean checkConnection(Point check, Point randomPoint){
         for(int i = 0; i < randomPoint.connectedPoints.size(); i++){
             if(randomPoint.connectedPoints.get(i).index == check.index){
-                System.out.println("found theres already a connection between "+randomPoint.xCoor+","+randomPoint.yCoor+" and "+check.xCoor+","+check.yCoor);
+                //System.out.println("found theres already a connection between "+randomPoint.xCoor+","+randomPoint.yCoor+" and "+check.xCoor+","+check.yCoor);
                 return true;
             }
         }
