@@ -16,10 +16,12 @@ public class BacktrackingMAC {
     List<Point> points = new ArrayList<Point>();
     List<Point> alreadyTested = new ArrayList<Point>();
     int numDecisions =0;
-    int numColors;
+    int numColors;    
+    int maxDecisions;
     
-    BacktrackingMAC(List<Point> inPoints){
+    BacktrackingMAC(int max, List<Point> inPoints){
         points = inPoints;
+        maxDecisions=max;
     }
     
     public void initConflicts(){
@@ -38,11 +40,22 @@ public class BacktrackingMAC {
         List<Point> answer = DFS(points.get(rand),1);
         if (answer == null){
             System.out.println("Failed Attempt");
+        }else{
+             //print working list
+            for (int i = 0; i< alreadyTested.size(); i++){
+                System.out.print(alreadyTested.get(i).index + ":"+alreadyTested.get(i).color+" ");
+            }
+            System.out.println(alreadyTested.size());
         }
         return numDecisions;
     }
     
     public List<Point> DFS(Point curNode, int curColor){
+        //exit condition for too many tries
+        if(numDecisions>=maxDecisions){
+            //System.out.println("Failed");
+            return null;
+        }
         //adds curNode to the working tested list
         //reduces legal moves of neighbors if applicable
         //creates a fail condition if a noncolored node reaches 0 possiblities
@@ -60,11 +73,7 @@ public class BacktrackingMAC {
             }
         }
         
-        //print working list
-        for (int i = 0; i< alreadyTested.size(); i++){
-            System.out.print(alreadyTested.get(i).index + ":"+alreadyTested.get(i).color+" ");
-        }
-        System.out.println(alreadyTested.size());
+       
         
         //exit condition for finding answer
         if(alreadyTested.size()==points.size()){
@@ -73,7 +82,7 @@ public class BacktrackingMAC {
                     alreadyTested.get(i).color = 1;
                 }
             }
-            System.out.println("ANSWER");
+            System.out.println("\nANSWER:");
             return alreadyTested;
         }
         
@@ -166,9 +175,7 @@ public class BacktrackingMAC {
     
     //
     public void fixProblems(List<Point> problems){
-        System.out.print("Fix:::  ");
         for(int i=problems.size()-1; i>=0; i--){
-            System.out.print(problems.get(i).index +":"+problems.get(i).color+" ");
             problems.get(i).color++;
             if(problems.get(i).color> numColors){
 //                boolean conflicts[] = new boolean[numColors+1];
@@ -188,6 +195,5 @@ public class BacktrackingMAC {
 //                }
             }
         }
-        System.out.println();
     }
 }

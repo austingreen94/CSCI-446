@@ -18,8 +18,10 @@ public class Backtracking {
     List<Point> alreadyTested = new ArrayList<Point>();
     int numDecisions =0;
     int numColors;
+    int maxDecisions;
     
-    Backtracking(List<Point> inPoints){
+    Backtracking(int max, List<Point> inPoints){
+        maxDecisions = max;
         points = inPoints;
         
     }
@@ -32,21 +34,27 @@ public class Backtracking {
         List<Point> answer = DFS(points.get(rand));
         if (answer == null){
             System.out.println("Failed Attempt");
+        }else{
+            //print working list
+            for (int i = 0; i< alreadyTested.size(); i++){
+                System.out.print(alreadyTested.get(i).index + ":"+alreadyTested.get(i).color+" ");
+            }
+            System.out.println(alreadyTested.size());
         }
         return numDecisions;
     }
     public List<Point> DFS(Point curNode){
         alreadyTested.add(curNode);
         
-        //print working list
-        for (int i = 0; i< alreadyTested.size(); i++){
-            System.out.print(alreadyTested.get(i).index + ":"+alreadyTested.get(i).color+" ");
+        //exit condition for too many tries
+        if(numDecisions>=maxDecisions){
+            //System.out.println("Failed Attempt - too many decisions");
+            return null;
         }
-        System.out.println(alreadyTested.size());
         
         //exit condition for finding answer
         if(alreadyTested.size()==points.size()){
-            System.out.println("ANSWER");
+            System.out.println("\nANSWER:");
             return alreadyTested;
         }
         
