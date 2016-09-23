@@ -23,8 +23,7 @@ public class Main {
     
     public static void main(String[] args) throws InterruptedException {
         for(int i = 1; i < 11; i++){
-            GraphGen Graph = new GraphGen();
-            Graph.setNumPoints(i * 10);
+            GraphGen Graph = new GraphGen(i * 10);
             Graph.createNodes();
             Graph.setEdges();
             graphs[i - 1] = Graph; 
@@ -86,7 +85,7 @@ public class Main {
         
         //initialize backtracking
         System.out.println("3 Colors Backtracking:");
-        Backtracking back = new Backtracking(graphs[0].finishedPoints);
+        Backtracking back = new Backtracking(maxDecisions, graphs[0].finishedPoints);
         int decisions = back.init(3); //4 color types
         System.out.println("Number of Decisions of Simple Backtracking = " + decisions);
         //make new frame for backtracking
@@ -100,7 +99,7 @@ public class Main {
        
         
         for(int i = 1; i < graphs.length; i++){
-            Backtracking back2 = new Backtracking(graphs[i].finishedPoints);
+            Backtracking back2 = new Backtracking(maxDecisions, graphs[i].finishedPoints);
             decisions = back2.init(3); //4 color types
             System.out.println("Number of Decisions of Simple Backtracking = " + decisions);
             
@@ -109,7 +108,7 @@ public class Main {
         
         System.out.println("4 Color Backtracking:");
         for(int i = 0; i < graphs.length; i++){
-            Backtracking back2 = new Backtracking(graphs[i].finishedPoints);
+            Backtracking back2 = new Backtracking(maxDecisions, graphs[i].finishedPoints);
             decisions = back2.init(4); //4 color types
             System.out.println("Number of Decisions of Simple Backtracking = " + decisions);
             
@@ -118,7 +117,7 @@ public class Main {
         
         //initialize backtrackingFC
         System.out.println("3 Color Backtracking with Forward Checking:");
-        BacktrackingFC backFC = new BacktrackingFC(graphs[0].finishedPoints);
+        BacktrackingFC backFC = new BacktrackingFC(maxDecisions, graphs[0].finishedPoints);
         decisions = backFC.init(4); //4 color types
         System.out.println("Number of Decisions of Backtracking with Forward Checking= " + decisions);
         //make new frame for backtracking
@@ -132,7 +131,7 @@ public class Main {
         //minConflicts.resetGraph();
        
         for(int i = 1; i < graphs.length; i++){
-            BacktrackingFC backFC2 = new BacktrackingFC(graphs[i].finishedPoints);
+            BacktrackingFC backFC2 = new BacktrackingFC(maxDecisions, graphs[i].finishedPoints);
             decisions = backFC2.init(3); //4 color types
             System.out.println("Number of Decisions of Backtracking with Forward Checking= " + decisions);
         }
@@ -140,7 +139,7 @@ public class Main {
         
         System.out.println("4 Color Backtracking with Forward Checking:");
         for(int i = 0; i < graphs.length; i++){
-            BacktrackingFC backFC2 = new BacktrackingFC(graphs[i].finishedPoints);
+            BacktrackingFC backFC2 = new BacktrackingFC(maxDecisions, graphs[i].finishedPoints);
             decisions = backFC2.init(4); //4 color types
             System.out.println("Number of Decisions of Backtracking with Forward Checking= " + decisions);
         }
@@ -149,7 +148,7 @@ public class Main {
         
         //initialize backtrackingMAC
         System.out.println("3 Color Backtracking with MAC:");
-        BacktrackingMAC backMAC = new BacktrackingMAC(graphs[0].finishedPoints);
+        BacktrackingMAC backMAC = new BacktrackingMAC(maxDecisions, graphs[0].finishedPoints);
         decisions = backMAC.init(4); //4 color types
         System.out.println("Number of Decisions of Backtracking with Constant Propagation= " + decisions);
         //make new frame for backtracking
@@ -164,7 +163,7 @@ public class Main {
         
         
         for(int i = 1; i < graphs.length; i++){
-            BacktrackingMAC backMAC2 = new BacktrackingMAC(graphs[0].finishedPoints);
+            BacktrackingMAC backMAC2 = new BacktrackingMAC(maxDecisions, graphs[0].finishedPoints);
             decisions = backMAC2.init(3); //4 color types
             System.out.println("Number of Decisions of Backtracking with Constant Propagation= " + decisions);
         }
@@ -172,7 +171,7 @@ public class Main {
         
         System.out.println("4 Color Backtracking with MAC:");
         for(int i = 0; i < graphs.length; i++){
-            BacktrackingMAC backMAC2 = new BacktrackingMAC(graphs[0].finishedPoints);
+            BacktrackingMAC backMAC2 = new BacktrackingMAC(maxDecisions, graphs[0].finishedPoints);
             decisions = backMAC2.init(4); //4 color types
             System.out.println("Number of Decisions of Backtracking with Constant Propagation= " + decisions);
         }

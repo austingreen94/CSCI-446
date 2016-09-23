@@ -116,7 +116,7 @@ public  class GeneticAlgorithm {
     
     // Method to combine two graphs
     public GraphGen reproduce(GraphGen x, GraphGen y){
-        GraphGen newGraph = new GraphGen();
+        GraphGen newGraph = new GraphGen(x.finishedPoints.size());
         int n = x.finishedPoints.size();
         int c = ran.nextInt(n);
         for(int i = 0; i < c; i++){
