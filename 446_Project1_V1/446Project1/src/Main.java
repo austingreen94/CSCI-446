@@ -39,14 +39,14 @@ public class Main {
         application.setVisible(true);
         TimeUnit.SECONDS.sleep(1);
         
-        
+        System.out.println("3 Colors Min-Conflicts:");
         MinConflicts minConflicts = new MinConflicts(graphs[0].finishedPoints);
         // Max number of runs = 10000 & 4 colors being used
         int minConflictSuccess = minConflicts.minConflicts(10000, 3);
         if(minConflictSuccess != -1){
             System.out.println("Number of Points: " + graphs[0].finishedPoints.size() + "\nNumber of Decisions of Min_Conflicts = " + minConflictSuccess + "\n");
         } else {
-            System.out.println("Number of Points: " + graphs[0].finishedPoints.size() + "\nMin_Conflicts Unsuccessful\n");
+            System.out.println("Number of Points: " + graphs[0].finishedPoints.size() + "\nMin_Conflicts Unsuccessful with 10000 cycles\n");
         }
         // Panel after Min_Conflicts algorithm has ran
         JFrame app2 = new JFrame("minConflicts");
@@ -58,28 +58,27 @@ public class Main {
         TimeUnit.SECONDS.sleep(1);
         
         // 3 Colors MinConflicts
-        System.out.println("3 Colors Min-Conflicts:");
         for(int i = 1; i < graphs.length; i++){
             MinConflicts algorithms2 = new MinConflicts(graphs[i].finishedPoints);
             int minConflictSuccess2 = algorithms2.minConflicts(10000, 3);
             if(minConflictSuccess2 != -1){
                 System.out.println("Number of Points: " + graphs[i].finishedPoints.size() + "\nNumber of Decisions of Min_Conflicts = " + minConflictSuccess2 + "\n");
             } else {
-                System.out.println("Number of Points: " + graphs[i].finishedPoints.size() + "\nMin_Conflicts Unsuccessful\n");
+                System.out.println("Number of Points: " + graphs[i].finishedPoints.size() + "\nMin_Conflicts Unsuccessful with 10000 cycles\n");
             }
             //resetColors();
         }
         resetColors();
         
         // 4 Colors MinConflicts
-        System.out.println("3 Colors Min-Conflicts:");
+        System.out.println("4 Colors Min-Conflicts:");
         for(int i = 0; i < graphs.length; i++){
             MinConflicts algorithms2 = new MinConflicts(graphs[i].finishedPoints);
             int minConflictSuccess2 = algorithms2.minConflicts(10000, 4);
             if(minConflictSuccess2 != -1){
                 System.out.println("Number of Points: " + graphs[i].finishedPoints.size() + "\nNumber of Decisions of Min_Conflicts = " + minConflictSuccess2 + "\n");
             } else {
-                System.out.println("Number of Points: " + graphs[i].finishedPoints.size() + "\nMin_Conflicts Unsuccessful\n");
+                System.out.println("Number of Points: " + graphs[i].finishedPoints.size() + "\nMin_Conflicts Unsuccessful with 10000 cycles\n");
             }
             //resetColors();
         }
