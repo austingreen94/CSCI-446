@@ -10,8 +10,8 @@ import java.util.Random;
  */
 public class Point {
     
-    int xCoor;
-    int yCoor;
+    double xCoor;
+    double yCoor;
     int index;
     List<Point> connectedPoints = new ArrayList<Point>();
     // 0 = UNCOLORED, 1 = RED, 2 = GREEN, 3 = BLUE, 4 = YELLOW
@@ -19,10 +19,10 @@ public class Point {
     int legalMoves=0;
     List<Point> conflicts = new ArrayList<Point>();
     
-    public Point(int squareDimension, int index){
+    public Point( int index){
         Random rn = new Random();
-        xCoor = rn.nextInt(squareDimension + 1) + 0;
-        yCoor = rn.nextInt(squareDimension + 1) + 0;
+        xCoor = rn.nextDouble();
+        yCoor = rn.nextDouble();
         this.index = index;
     }
   

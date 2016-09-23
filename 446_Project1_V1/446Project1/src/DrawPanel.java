@@ -36,10 +36,10 @@ public class DrawPanel extends JPanel{
                     g.setColor(Color.BLACK);
                     break;
             }
-            g.fillOval(points.get(i).xCoor*50, points.get(i).yCoor*50, 10, 10);
+            g.fillOval((int)(points.get(i).xCoor*500), (int)(points.get(i).yCoor*500), 10, 10);
             g.setColor(Color.BLACK);
             for(int j = 0; j < points.get(i).connectedPoints.size(); j++){
-                g.drawLine(points.get(i).xCoor*50, points.get(i).yCoor*50, points.get(i).connectedPoints.get(j).xCoor*50, points.get(i).connectedPoints.get(j).yCoor*50);
+                g.drawLine((int)(points.get(i).xCoor*500), (int)(points.get(i).yCoor*500), (int)(points.get(i).connectedPoints.get(j).xCoor*500), (int)(points.get(i).connectedPoints.get(j).yCoor*500));
             }
         }
     }

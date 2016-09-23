@@ -14,7 +14,6 @@ public class GraphGen {
     public Point[] pointArray;
     //Point point;
     
-    public int squareDimension = 0;
     public int numPoints = 0;
     public int geneticConflicts =0;
     
@@ -22,7 +21,6 @@ public class GraphGen {
    
     public GraphGen(int num){
         setNumPoints(num);
-        setDimension(20);
     }
     
     public void setNumPoints(int amountPoints){
@@ -35,14 +33,6 @@ public class GraphGen {
         return numPoints;
     }
     
-    public void setDimension(int squ){
-        squareDimension = squ;
-    }
-    
-    public int getDimension(){
-        return squareDimension;
-    }
-    
     public void createNodes(){
         
         pointArray = new Point[getNumPoints()];
@@ -51,7 +41,7 @@ public class GraphGen {
         for (int index = 0; index < numPoints; index++){
             do{
                 identicalCoords=false;
-                newPoint = new Point(getDimension(), index);
+                newPoint = new Point(index);
                 for (int j = 0; j < index; j++){
                     if(newPoint.xCoor == pointArray[j].xCoor && newPoint.yCoor == pointArray[j].yCoor){
                         identicalCoords=true;
@@ -128,18 +118,18 @@ public class GraphGen {
         return false;//default setting
     }
     public boolean overlap(int p1, int p2){
-        int x1 = pointArray[p1].xCoor;
-        int y1 = pointArray[p1].yCoor;
-        int x2 = pointArray[p2].xCoor;
-        int y2 = pointArray[p2].yCoor;
+        double x1 = pointArray[p1].xCoor;
+        double y1 = pointArray[p1].yCoor;
+        double x2 = pointArray[p2].xCoor;
+        double y2 = pointArray[p2].yCoor;
         for (int i = 0; i < pointArray.length; i++){
             if (i == p1 || i == p2){
                 // do nothing
             }else{
-                int x3 = pointArray[i].xCoor;
-                int y3 = pointArray[i].yCoor;
-                int x4;
-                int y4;
+                double x3 = pointArray[i].xCoor;
+                double y3 = pointArray[i].yCoor;
+                double x4;
+                double y4;
                 for (int j = 0; j<pointArray[i].connectedPoints.size(); j++){
                     x4 = pointArray[i].connectedPoints.get(j).xCoor;
                     y4 = pointArray[i].connectedPoints.get(j).yCoor;
