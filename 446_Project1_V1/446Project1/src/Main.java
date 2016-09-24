@@ -113,8 +113,23 @@ public class Main {
         TimeUnit.SECONDS.sleep(1);
         resetColors();
         
-       GeneticAlgorithm genetic = new GeneticAlgorithm();
-       genetic.geneticAlgorithm(graphs[0]);
+       //initialize backtrackingMAC*******************************************
+        System.out.println("---------------------------------------------\n4 Color Backtracking with MAC:");
+        GeneticAlgorithm genetic = new GeneticAlgorithm();
+        genetic.geneticAlgorithm(graphs[0]);
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println("Number of Points: " + graphs[0].finishedPoints.size());
+        System.out.println("Number of Decisions of Backtracking with Constant Propagation= " + decisions);
+        //make new frame for backtracking
+        JFrame appBackGene = new JFrame("Backtracking with Constant Propagation (MAC)");
+        appBackGene.setLocation(1000, 500);
+        appBackGene.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        appBackGene.add(panel);
+        appBackGene.setSize (500+30, 500+50);
+        appBackGene.setVisible(true);
+        //reset graph
+        TimeUnit.SECONDS.sleep(1);
+        resetColors();
     }
     
 }
