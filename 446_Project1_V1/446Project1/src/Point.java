@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,6 +20,7 @@ public class Point {
     int color = 0;
     int legalMoves=0;
     ArrayList<Point> conflicts = new ArrayList<Point>();
+    NumberFormat numFormat = new DecimalFormat("#0.0000");
     
     public Point( int index){
         Random rn = new Random();
@@ -27,6 +30,6 @@ public class Point {
     }
   
     public void printPoint(){
-        System.out.print("(" + xCoor + ", " + yCoor + ")");
+        System.out.print("(" + numFormat.format(xCoor) + ", " + numFormat.format(yCoor) + ")");
     }
 }

@@ -94,6 +94,11 @@ public class MinConflicts {
             conflictList = checkConflicts();
             int conflictCount = conflictList.size() / 2;
             System.out.println("Number of Conflicts: " + conflictCount);
+            for(int j = 0; j < conflictList.size(); j++){
+                conflictList.get(j).printPoint();
+                System.out.print(" Color: " + conflictList.get(j).color + "\n");
+            }
+            System.out.println();
             if(conflictList.isEmpty()){
                 return numDecisions;
             } else {
