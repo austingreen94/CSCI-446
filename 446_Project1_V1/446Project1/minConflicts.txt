@@ -1,0 +1,38 @@
+---------------------------------------------
+4 Colors Min-Conflicts:
+Number of Conflicts: 3
+(0.2085, 0.1689) Color: 2
+(0.5722, 0.2620) Color: 3
+(0.8393, 0.4203) Color: 4
+(0.4258, 0.0411) Color: 2
+(0.5721, 0.0304) Color: 3
+(0.1845, 0.5192) Color: 4
+
+Number of Conflicts: 3
+(0.2085, 0.1689) Color: 2
+(0.5722, 0.2620) Color: 3
+(0.5722, 0.2620) Color: 3
+(0.4258, 0.0411) Color: 2
+(0.5721, 0.0304) Color: 3
+(0.1845, 0.5192) Color: 3
+
+Number of Conflicts: 2
+(0.5722, 0.2620) Color: 3
+(0.5722, 0.2620) Color: 3
+(0.5721, 0.0304) Color: 3
+(0.1845, 0.5192) Color: 3
+
+Number of Conflicts: 1
+(0.5867, 0.2628) Color: 1
+(0.5722, 0.2620) Color: 1
+
+Number of Conflicts: 1
+(0.5867, 0.2628) Color: 1
+(0.5722, 0.2620) Color: 1
+
+Number of Conflicts: 0
+
+Number of Points: 10
+Number of Decisions of Min_Conflicts = 35
+
+---------------------------------------------
