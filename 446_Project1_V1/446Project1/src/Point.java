@@ -13,11 +13,11 @@ public class Point {
     double xCoor;
     double yCoor;
     int index;
-    List<Point> connectedPoints = new ArrayList<Point>();
+    ArrayList<Point> connectedPoints = new ArrayList<Point>();
     // 0 = UNCOLORED, 1 = RED, 2 = GREEN, 3 = BLUE, 4 = YELLOW
     int color = 0;
     int legalMoves=0;
-    List<Point> conflicts = new ArrayList<Point>();
+    ArrayList<Point> conflicts = new ArrayList<Point>();
     
     public Point( int index){
         Random rn = new Random();

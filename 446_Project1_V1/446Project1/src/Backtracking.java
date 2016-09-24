@@ -52,6 +52,12 @@ public class Backtracking {
             return null;
         }
         
+        //print working list
+        for (int i = 0; i< alreadyTested.size(); i++){
+            System.out.print(alreadyTested.get(i).index + ":"+alreadyTested.get(i).color+" ");
+        }
+        System.out.println(alreadyTested.size());
+        
         //exit condition for finding answer
         if(alreadyTested.size()==points.size()){
             System.out.println("\nANSWER:");

@@ -73,7 +73,11 @@ public class BacktrackingMAC {
             }
         }
         
-       
+        //print working list
+        for (int i = 0; i< alreadyTested.size(); i++){
+            System.out.print(alreadyTested.get(i).index + ":"+alreadyTested.get(i).color+" ");
+        }
+        System.out.println(alreadyTested.size());
         
         //exit condition for finding answer
         if(alreadyTested.size()==points.size()){
@@ -141,7 +145,7 @@ public class BacktrackingMAC {
             }
         }
         
-        curNode.color = 0;
+        
         //restores all nodes to before this branch began
         alreadyTested.remove(curNode);
         for(int i=0;i<curNode.connectedPoints.size(); i++){
@@ -153,6 +157,7 @@ public class BacktrackingMAC {
         List<Point> workingList=new ArrayList<Point>();
         workingList.add(curNode);
         fixProblems(findProblem(curNode, workingList));
+        curNode.color = 0;
         return null;
     }
     
@@ -175,9 +180,15 @@ public class BacktrackingMAC {
     
     //
     public void fixProblems(List<Point> problems){
+        System.out.print("FIX:::");
+        for(int i=0; i<problems.size(); i++){
+            System.out.print(problems.get(i).index + ":"+problems.get(i).color+", ");
+        }
+        System.out.println();
         for(int i=problems.size()-1; i>=0; i--){
             problems.get(i).color++;
             if(problems.get(i).color> numColors){
+                problems.get(i).color =1;
 //                boolean conflicts[] = new boolean[numColors+1];
 //                for(int j = 0; j<conflicts.length; j++){
 //                    conflicts[j]=false;
@@ -194,6 +205,7 @@ public class BacktrackingMAC {
 //                    }
 //                }
             }
+            
         }
     }
 }

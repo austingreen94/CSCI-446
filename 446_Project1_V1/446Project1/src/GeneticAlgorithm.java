@@ -40,29 +40,35 @@ public  class GeneticAlgorithm {
         return curColor;
     }
     
-    public void randomColor(int amountOfColors, Point curPoint){
+    public Point randomColor(int amountOfColors, Point curPoint){
         curPoint.color = ran.nextInt(amountOfColors) + 1;
+        System.out.print(curPoint.color);
+        return curPoint;
     }
     
     // Method to color entire graph for initiation of minConflicts algorithm
-    public void colorEntireGraphRandomly(int amountColors, GraphGen graph){
-        if(amountColors == 3){
-            for(int i = 0; i < graph.numPoints; i++){
-                randomColor(3, graph.finishedPoints.get(i));
-            }
-        } else {
-            for(int i = 0; i < graph.numPoints; i++){
-                randomColor(4, graph.finishedPoints.get(i));
-            }
+    public GraphGen colorEntireGraphRandomly(int amountColors, GraphGen graph){
+        GraphGen graphNew = new GraphGen(graph.numPoints);
+        graphNew.finishedPoints = (ArrayList<Point>)graph.finishedPoints.clone();
+        
+        for(int i = 0; i < graphNew.numPoints; i++){
+            graphNew.finishedPoints.get(i).color = ran.nextInt(amountColors) + 1;
+            
         }
+        System.out.println();
+        return graphNew;
     }
     
     // Create a population of random Graphs
-    public List<GraphGen> populationCreator(int numberOfGraphs, int numberOfColors, GraphGen graph){
-        List<GraphGen> population = new ArrayList<GraphGen>();
+    public ArrayList<GraphGen> populationCreator(int numberOfGraphs, int numberOfColors, GraphGen graph){
+        ArrayList<GraphGen> population = new ArrayList<GraphGen>();
+        GraphGen graphNew = new GraphGen(graph.numPoints);
+        graphNew = colorEntireGraphRandomly(numberOfColors, graph);
+        population.add(graphNew);
         for(int i = 0; i < numberOfGraphs; i++){   
-            colorEntireGraphRandomly(numberOfColors, graph);
-            population.add(graph);
+            
+            graphNew = colorEntireGraphRandomly(numberOfColors, graph);
+            population.add(graphNew);
         }
         return population;
     }
@@ -89,11 +95,22 @@ public  class GeneticAlgorithm {
     // Boolean method that returns true if one the graphs in the population 
     // has zero conflicts
     public boolean zeroConflicts(List<GraphGen> population){
+        int minConflictsGuy=5000;
         for(int i = 0; i < population.size(); i++){
             if(population.get(i).geneticConflicts == 0){
                 return true;
             }
+            System.out.println("index:"+i+" conflicts:"+population.get(i).geneticConflicts);
+            if(minConflictsGuy == 5000 || population.get(i).geneticConflicts < population.get(minConflictsGuy).geneticConflicts){
+                minConflictsGuy = i;
+            }
+            for(int j = 0; j < population.get(i).numPoints; j++){
+                System.out.print(population.get(i).finishedPoints.get(j).color);
+
+            }
+            System.out.println();
         }
+        System.out.println("minConflicts-- index:"+minConflictsGuy+" conflicts:"+population.get(minConflictsGuy).geneticConflicts);
         return false;
     }
     
@@ -135,13 +152,13 @@ public  class GeneticAlgorithm {
 //    }
     
     public void geneticAlgorithm(GraphGen graph){
-        List<GraphGen> population = populationCreator(100, 3, graph); // Create Population
+        List<GraphGen> population = populationCreator(100, 4, graph); // Create Population
         eachGraphConflicts(population); // Save number of conflicts for each graph in population
         //System.out.println(population.size()); // Test
         //List<GraphGen> sortedPopulation = sortPopulationConflicts(population); // Sort graphs by lowest number of conflicts
         List<GraphGen> newPopulation = new ArrayList<GraphGen>();
         int loops = 0;
-        while(!zeroConflicts(population) || loops < 10000){ // Run until there is a perfect individual or enough time has elapsed
+        while(!zeroConflicts(population) && loops < 100000){ // Run until there is a perfect individual or enough time has elapsed
             for(int i = 0; i < population.size(); i++){
                 //System.out.println(i);
                 //System.out.println(population.size());
@@ -159,11 +176,12 @@ public  class GeneticAlgorithm {
                 GraphGen newGraph = newPopulation.get(i);
                 population.add(newGraph);
             }
-            newPopulation.clear();
+            newPopulation.clear();            
             //population = temp;
             //newPopulation.clear();
             eachGraphConflicts(population);
             //sortedPopulation = sortPopulationConflicts(population);
+            System.out.println(loops);
             loops++;
         }
         //GraphGen bestIndividual = sortedPopulation.get(0);

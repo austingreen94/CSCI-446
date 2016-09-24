@@ -73,6 +73,12 @@ public class BacktrackingFC {
             }
         }
         
+        //print current working list and length of it
+        for (int i = 0; i< alreadyTested.size(); i++){
+            System.out.print(alreadyTested.get(i).index + ":"+alreadyTested.get(i).color+" ");
+        }
+        System.out.println(alreadyTested.size());
+        
         //exit if an answer is found
         if(!legalMovesFailed && alreadyTested.size()==points.size()){
             System.out.println("\nANSWER:");
@@ -84,27 +90,26 @@ public class BacktrackingFC {
             List<Point> testNodeList = new ArrayList<Point>();
             //finds node with least moves that is not on the list already
             Point testNode = null;
-            for(int i=0; i<points.size();i++){
+            //testNodeList.addAll(points);
+            //testNodeList.removeAll(alreadyTested);
+            for(int j = 1; j<=numColors; j++){
+                for(int i=0; i<points.size();i++){
                 // only continue if this node isnt already in the list(ie already colored)
-                if (!alreadyTested.contains(points.get(i))){
-                    testNodeList.add(points.get(i));
-                    for(int j=0; j<testNodeList.size(); j++){
-                        if (points.get(i) != testNodeList.get(j) && points.get(i).legalMoves<testNodeList.get(j).legalMoves){
-                            Point replace = testNodeList.get(j);
-                            Point replace2;
-                            testNodeList.set(j, points.get(i));
-                            for(int k=j+1; k<testNodeList.size(); k++){
-                                replace2 = testNodeList.get(k);
-                                testNodeList.set(k, replace);
-                                replace = replace2;
-                            }
-                        }
-                    }
+                
+                    if (!alreadyTested.contains(points.get(i)) && points.get(i).legalMoves==j){
+                        testNodeList.add(points.get(i));                 
 //                    if(testNode==null || points.get(i).legalMoves<testNode.legalMoves){
 //                        testNode = points.get(i);
 //                    }
+                    }
                 }
             }
+            //print testNodeList
+            System.out.print("testNodeList (PointIndex:legalMovesLeft) - ");
+            for(int j=0; j<testNodeList.size(); j++){
+                System.out.print(testNodeList.get(j).index + ":"+testNodeList.get(j).legalMoves+" ");
+            }
+            System.out.println(testNodeList.size());
             
             for(int k=0; k<testNodeList.size(); k++){
                 testNode = testNodeList.get(k);
@@ -133,13 +138,14 @@ public class BacktrackingFC {
         }
         
         //restores all nodes to before this branch began
-        curNode.color=0;
+        
         alreadyTested.remove(curNode);
         for(int i=0;i<curNode.connectedPoints.size(); i++){
             if(curNode.connectedPoints.get(i).color != curNode.color){
                 curNode.connectedPoints.get(i).legalMoves++;
             }
         }
+        curNode.color=0;
         return null;
     }
 }

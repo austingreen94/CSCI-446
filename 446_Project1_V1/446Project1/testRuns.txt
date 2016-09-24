@@ -1,0 +1,139 @@
+---------------------------------------------
+4 Colors Min-Conflicts:
+Number of Conflicts: 1
+Number of Conflicts: 0
+Number of Points: 5
+Number of Decisions of Min_Conflicts = 10
+
+---------------------------------------------
+4 Colors Backtracking:
+9:1 1
+9:1 0:2 2
+9:1 0:2 4:1 3
+9:1 0:2 4:1 8:2 4
+9:1 0:2 4:1 8:2 6:3 5
+9:1 0:2 4:1 8:2 6:3 2:4 6
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 7
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 3:2 8
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 3:2 1:3 9
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 3:3 8
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 3:3 1:2 9
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 3:4 8
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 3:4 1:2 9
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 3:4 1:3 9
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 1:2 8
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 1:2 3:3 9
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 1:2 3:4 9
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 1:3 8
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 1:3 3:2 9
+9:1 0:2 4:1 8:2 6:3 2:4 7:1 1:3 3:4 9
+9:1 0:2 4:1 8:2 6:3 2:4 7:2 7
+9:1 0:2 4:1 8:2 6:3 2:4 7:2 5:1 8
+9:1 0:2 4:1 8:2 6:3 2:4 7:2 5:1 3:3 9
+9:1 0:2 4:1 8:2 6:3 2:4 7:2 5:1 3:4 9
+9:1 0:2 4:1 8:2 6:3 2:4 7:2 5:1 3:4 1:3 10
+
+ANSWER:
+9:1 0:2 4:1 8:2 6:3 2:4 7:2 5:1 3:4 1:3 10
+Number of Points: 10
+Number of Decisions of Simple Backtracking = 25
+
+---------------------------------------------
+4 Color Backtracking with Forward Checking:
+8:1 1
+testNodeList (PointIndex:legalMovesLeft) - 2:3 5:3 3:3 0:3 6:4 7:4 1:4 9:4 4:4 9
+8:1 2:2 2
+testNodeList (PointIndex:legalMovesLeft) - 5:2 3:2 7:3 1:3 0:3 6:4 9:4 4:4 8
+8:1 2:2 5:3 3
+testNodeList (PointIndex:legalMovesLeft) - 7:2 3:2 0:2 6:3 1:3 9:3 4:3 7
+8:1 2:2 5:3 7:1 4
+testNodeList (PointIndex:legalMovesLeft) - 6:2 3:2 1:2 4:2 0:2 9:3 6
+8:1 2:2 5:3 7:1 6:2 5
+testNodeList (PointIndex:legalMovesLeft) - 4:1 3:2 1:2 0:2 9:3 5
+8:1 2:2 5:3 7:1 6:2 4:4 6
+testNodeList (PointIndex:legalMovesLeft) - 3:2 1:2 9:2 0:2 4
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 7
+testNodeList (PointIndex:legalMovesLeft) - 9:1 0:1 1:2 3
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 9:1 8
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 9:2 8
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 0:2 8
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 0:4 8
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 1:3 8
+testNodeList (PointIndex:legalMovesLeft) - 9:1 0:1 2
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 1:3 9:1 9
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 1:3 9:2 9
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 1:3 0:2 9
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 1:3 0:4 9
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 1:4 8
+testNodeList (PointIndex:legalMovesLeft) - 9:1 0:1 2
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 1:4 9:1 9
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 1:4 9:2 9
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 1:4 0:2 9
+8:1 2:2 5:3 7:1 6:2 4:4 3:3 1:4 0:4 9
+8:1 2:2 5:3 7:1 6:2 4:4 3:4 7
+testNodeList (PointIndex:legalMovesLeft) - 9:1 0:1 1:2 3
+...
+...
+...
+8:1 2:2 5:3 7:1 6:4 0:4 1:4 7
+testNodeList (PointIndex:legalMovesLeft) - 3:1 4:1 9:2 3
+8:1 2:2 5:3 7:1 6:4 0:4 1:4 3:3 8
+testNodeList (PointIndex:legalMovesLeft) - 9:1 4:1 2
+8:1 2:2 5:3 7:1 6:4 0:4 1:4 3:3 9:1 9
+8:1 2:2 5:3 7:1 6:4 0:4 1:4 3:3 9:2 9
+8:1 2:2 5:3 7:1 6:4 0:4 1:4 3:3 4:2 9
+8:1 2:2 5:3 7:1 6:4 0:4 1:4 4:2 8
+testNodeList (PointIndex:legalMovesLeft) - 3:1 9:1 2
+8:1 2:2 5:3 7:1 6:4 0:4 1:4 4:2 3:3 9
+8:1 2:2 5:3 7:1 6:4 0:4 1:4 4:2 9:1 9
+8:1 2:2 5:3 7:1 6:4 0:4 1:4 9:1 8
+8:1 2:2 5:3 7:1 6:4 0:4 1:4 9:2 8
+8:1 2:2 5:3 7:1 6:4 0:4 9:1 7
+8:1 2:2 5:3 7:1 6:4 0:4 9:2 7
+8:1 2:2 5:3 7:1 6:4 9:1 6
+8:1 2:2 5:3 7:1 6:4 9:2 6
+8:1 2:2 5:3 7:1 6:4 9:4 6
+8:1 2:2 5:3 7:1 3:3 5
+testNodeList (PointIndex:legalMovesLeft) - 0:1 6:2 1:2 9:2 4:2 5
+8:1 2:2 5:3 7:1 3:3 0:2 6
+testNodeList (PointIndex:legalMovesLeft) - 9:1 6:2 1:2 4:2 4
+8:1 2:2 5:3 7:1 3:3 0:2 9:1 7
+testNodeList (PointIndex:legalMovesLeft) - 4:1 6:2 1:2 3
+8:1 2:2 5:3 7:1 3:3 0:2 9:1 4:2 8
+testNodeList (PointIndex:legalMovesLeft) - 6:1 1:2 2
+8:1 2:2 5:3 7:1 3:3 0:2 9:1 4:2 6:4 9
+testNodeList (PointIndex:legalMovesLeft) - 1:2 1
+8:1 2:2 5:3 7:1 3:3 0:2 9:1 4:2 6:4 1:3 10
+
+ANSWER:
+8:1 2:2 5:3 7:1 3:3 0:2 9:1 4:2 6:4 1:3 10
+Number of Points: 10
+Number of Decisions of Backtracking with Forward Checking= 1063
+
+---------------------------------------------
+4 Color Backtracking with MAC:
+4:1 1
+4:1 2:1 2
+4:1 2:1 3:2 3
+4:1 2:1 3:2 0:2 4
+FIX:::0:2, 2:1, 
+4:1 2:2 3:2 1:3 4
+4:1 2:2 3:2 1:3 0:4 5
+
+ANSWER:
+4:1 2:2 3:2 1:3 0:4 5
+Number of Points: 5
+Number of Decisions of Backtracking with Constant Propagation= 6
+
+
+
+
+------------------------------------NOTES--------------------------------------
+The general syntax is (PointIndex:color) unless otherwise specified (ie with testNodeArray)
+
+Backtracking and Backtracking with forward checking both had to be increased from 5 to 10 
+because they would usually solve it right away and so not show the backtracking aspect.
+
+This depiction of Backtracking with forward checking is far from the normal, but it shows
+the solving aspect of it. Normally (approximately 95% of the time) with a 10 node graph 
+it would solve it on the first try.

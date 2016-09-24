@@ -17,7 +17,7 @@ public class GraphGen {
     public int numPoints = 0;
     public int geneticConflicts =0;
     
-    List<Point> finishedPoints = new ArrayList<Point>();
+    ArrayList<Point> finishedPoints = new ArrayList<Point>();
    
     public GraphGen(int num){
         setNumPoints(num);

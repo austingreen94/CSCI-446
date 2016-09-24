@@ -12,7 +12,7 @@ public class DrawPanel extends JPanel{
         points = inPoints;
     }
     //sets points
-    public void setPoints(List<Point> inPoints){
+    public void setPoints(ArrayList<Point> inPoints){
         points = inPoints;
     }
     //prints out the points and their connections
