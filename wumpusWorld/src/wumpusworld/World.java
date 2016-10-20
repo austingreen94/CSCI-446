@@ -7,7 +7,7 @@
 package wumpusworld;
 
 import java.util.Random;
-
+import java.util.Scanner;
 /**
  *
  * @author b53t457
@@ -15,23 +15,28 @@ import java.util.Random;
 public class World {
 
     //Enter N for size of world
-    int n = 5;
-    node[][] world = new node[n + 2][n + 2];
+    
+    int n;
+    node[][] world;
     Random random = new Random();
+    Scanner sc = new Scanner(System.in);
     boolean goldy = false;
     boolean wumpy = false;
-    int min = 0;
-    int max = n+1;
+    int min;
+    int max;
 
     public void startworld() {
+        System.out.println("insert size of world as a square");
+        n = sc.nextInt();
+        world = new node[n + 2][n + 2];
         for (int i = 0; i < n + 2; i++) {
             for (int j = 0; j < n + 2; j++) {
 
                 world[i][j] = new node();
             }
         }
-    }
-    public void buildworld() {
+        min = 0;
+        max = n+1;
         for(int i = 0; i<world.length; i++)
         {
             world[min][i].wall = true;
@@ -39,6 +44,9 @@ public class World {
             world[i][min].wall = true;
             world[i][max].wall = true;
         }
+    }
+    public void buildworld() {
+        
         
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < n; j++) {
@@ -88,5 +96,6 @@ public class World {
             }
             System.out.println();
         }
+        System.out.println("gold = G, hole =H, wall = O, wumpus = W, and nothing = X");
     }
 }
