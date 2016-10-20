@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class World {
 
     //Enter N for size of world
-    
+    int n;
     Node[][] world;
     Random random = new Random();
     Scanner sc = new Scanner(System.in);
@@ -25,6 +25,7 @@ public class World {
     int max;
 
     public void startworld(int n) {
+        this.n=n;
         world = new Node[n + 2][n + 2];
         for (int i = 0; i < n + 2; i++) {
             for (int j = 0; j < n + 2; j++) {
@@ -77,7 +78,11 @@ public class World {
         {
             buildworld(n);
         }
-        System.out.println("World is built");
+       printworld();
+    }
+    public void printworld()
+    {
+         System.out.println("World is built");
         for (int i = 0; i < n + 2; i++) {
             for (int j = 0; j < n + 2; j++) {
                 if(world[i][j].gold== true)
@@ -127,5 +132,65 @@ public class World {
          return world[x][y];
          }
     }
+     public boolean shoot(int x, int y, char cha)
+     {
+         if(cha == 'E' || cha == 'e')
+         {
+             for (int i = x; i<max ; i++)
+             {
+                 if(world[i][y].wall == true)
+                 {
+                     return false;
+                 }
+                 else if(world[i][y].wumpus == true)
+                 {
+                     return true;
+                 }
+             }
+         }
+         else if(cha == 'W' || cha == 'w')
+         {
+             for (int i = x; i>min ; i--)
+             {
+                 if(world[i][y].wall == true)
+                 {
+                     return false;
+                 }
+                 else if(world[i][y].wumpus == true)
+                 {
+                     return true;
+                 }
+             }
+         }
+         else if(cha == 'S' || cha == 's')
+         {
+             for (int i = y; i<max ; i++)
+             {
+                 if(world[x][i].wall == true)
+                 {
+                     return false;
+                 }
+                 else if(world[x][i].wumpus == true)
+                 {
+                     return true;
+                 }
+             }
+         }
+         else if(cha == 'N' || cha == 'n')
+         {
+             for (int i = y; i>min ; i--)
+             {
+                 if(world[x][i].wall == true)
+                 {
+                     return false;
+                 }
+                 else if(world[x][i].wumpus == true)
+                 {
+                     return true;
+                 }
+             }
+         }
+         return false;
+     }
      
 }
