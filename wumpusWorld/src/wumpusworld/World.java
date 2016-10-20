@@ -16,7 +16,7 @@ public class World {
 
     //Enter N for size of world
     
-    node[][] world;
+    Node[][] world;
     Random random = new Random();
     Scanner sc = new Scanner(System.in);
     boolean goldy = false;
@@ -25,11 +25,11 @@ public class World {
     int max;
 
     public void startworld(int n) {
-        world = new node[n + 2][n + 2];
+        world = new Node[n + 2][n + 2];
         for (int i = 0; i < n + 2; i++) {
             for (int j = 0; j < n + 2; j++) {
 
-                world[i][j] = new node();
+                world[i][j] = new Node();
             }
         }
         min = 0;
@@ -53,14 +53,23 @@ public class World {
                 }
                 else if (bder < 10 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].hole = true;
+                    world[i-1][j].breeze = true;
+                    world[i][j+1].breeze = true;
+                    world[i+1][j].breeze = true;
+                    world[i][j+1].breeze = true;
                 } else if (bder >= 10 && bder < 20 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].wumpus = true;
                     wumpy = true;
+                    world[i][j-1].stench = true;
+                    world[i][j+1].stench = true;
+                    world[i+1][j].stench = true;
+                    world[i-1][j].stench = true;
                 } else if (bder >= 20 && bder < 30 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].wall = true;
                 } else if (bder >= 30 && bder < 40 && goldy == false && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].gold = true;
                     goldy = true;
+                    world[i][i].glitter = true;
                 }
             }
         }
@@ -91,15 +100,32 @@ public class World {
                 {
                     System.out.print("[P]");
                 }
+                else if(world[i][j].breeze== true)
+                {
+                    System.out.print("[B]");
+                }
+                else if(world[i][j].stench== true)
+                {
+                    System.out.print("[S]");
+                }
                 else
                 {
                     System.out.print("[X]");
                 }
-                
-                //System.out.print("[" +(world[i][j].gold) +", " + (world[i][j].hole) +", " + (world[i][j].wall) +", " + (world[i][j].wumpus) + "]");
+               
             }
             System.out.println();
         }
         System.out.println("gold = G, hole =H, wall = O, wumpus = W, and nothing = X");
     }
+     public Node travel(int x, int y) {
+         if (world[x][y].wall = true)
+         {
+             return null;
+         }
+         else{
+         return world[x][y];
+         }
+    }
+     
 }
