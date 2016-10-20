@@ -16,4 +16,7 @@ public class Node {
     boolean wumpus;
     boolean wall;
     boolean player;
+    
+    boolean breeze;
+    boolean stench;
 }
