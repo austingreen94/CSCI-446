@@ -5,6 +5,9 @@
  */
 package wumpusworld;
 
+import java.awt.Point;
+import java.util.ArrayList;
+
 /**
  *
  * @author Jordan
@@ -12,10 +15,12 @@ package wumpusworld;
 public class Agent {
     World askWorld;
     World myWorld = new World();
-    int score=0;
+    int score = 0;
     int curX = 1;
     int curY = 1;
     char direction = 'E';
+    int amtArrows;
+    ArrayList<Point> frontier = new ArrayList<Point>();
     
     public Agent(World inWorld){
         askWorld = inWorld;
@@ -26,13 +31,16 @@ public class Agent {
     public int runGame(){
         //initial starting position
         myWorld.world[1][1] = askWorld.world[1][1];
+        frontier.add(new Point(1,2));
+        frontier.add(new Point(2,1));
         
-        
-        
-        attemptMove();
-        
-    
-        
+        while(!myWorld.world[curX][curY].glitter){
+            
+            attemptMove();
+            
+        }
+        System.out.println("You found the gold!");
+        askWorld.print();
         return score;
     }
     
