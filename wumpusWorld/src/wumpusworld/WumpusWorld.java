@@ -5,6 +5,8 @@
  */
 package wumpusworld;
 
+import java.util.Scanner;
+
 /**
  *
  * @author manam
@@ -16,9 +18,12 @@ public class WumpusWorld {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Scanner sc = new Scanner(System.in);
         World world = new World();
-        world.startworld();
-        world.buildworld();
+        System.out.println("insert size of world as a square");
+        int n = sc.nextInt();
+        world.startworld(n);
+        world.buildworld(n);
     }
     
 }

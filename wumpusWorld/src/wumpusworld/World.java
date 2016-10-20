@@ -16,7 +16,6 @@ public class World {
 
     //Enter N for size of world
     
-    int n;
     node[][] world;
     Random random = new Random();
     Scanner sc = new Scanner(System.in);
@@ -25,9 +24,7 @@ public class World {
     int min;
     int max;
 
-    public void startworld() {
-        System.out.println("insert size of world as a square");
-        n = sc.nextInt();
+    public void startworld(int n) {
         world = new node[n + 2][n + 2];
         for (int i = 0; i < n + 2; i++) {
             for (int j = 0; j < n + 2; j++) {
@@ -45,20 +42,23 @@ public class World {
             world[i][max].wall = true;
         }
     }
-    public void buildworld() {
+    public void buildworld(int n) {
         
         
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < n; j++) {
                 int bder = random.nextInt(100);
-                if (bder < 10 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false) {
+                if(i==1&&j==1){
+                    world[i][j].player = true;
+                }
+                else if (bder < 10 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].hole = true;
-                } else if (bder >= 10 && bder < 20 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false) {
+                } else if (bder >= 10 && bder < 20 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].wumpus = true;
                     wumpy = true;
-                } else if (bder >= 20 && bder < 30 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false) {
+                } else if (bder >= 20 && bder < 30 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].wall = true;
-                } else if (bder >= 30 && bder < 40 && goldy == false && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false) {
+                } else if (bder >= 30 && bder < 40 && goldy == false && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].gold = true;
                     goldy = true;
                 }
@@ -66,7 +66,7 @@ public class World {
         }
         if(goldy == false || wumpy == false)
         {
-            buildworld();
+            buildworld(n);
         }
         System.out.println("World is built");
         for (int i = 0; i < n + 2; i++) {
@@ -86,6 +86,10 @@ public class World {
                 else if(world[i][j].wall== true)
                 {
                     System.out.print("[O]");
+                }
+                else if(world[i][j].player== true)
+                {
+                    System.out.print("[P]");
                 }
                 else
                 {
