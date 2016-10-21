@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -37,13 +38,9 @@ public class World {
         for(int i = 0; i<world.length; i++)
         {
             world[min][i].wall = true;
-            world[min][i].beenThere = true;
             world[max][i].wall = true;
-            world[max][i].beenThere = true;
             world[i][min].wall = true;
-            world[i][min].beenThere = true;
             world[i][max].wall = true;
-            world[i][max].beenThere = true;
         }
     }
     public void buildworld(int n) {
@@ -85,7 +82,7 @@ public class World {
     }
     public void printworld()
     {
-         //System.out.println("World is built");
+         System.out.println("World is built");
         for (int i = 0; i < n + 2; i++) {
             for (int j = 0; j < n + 2; j++) {
                 if(world[i][j].gold== true)
@@ -132,7 +129,7 @@ public class World {
              return null;
          }
          else{
-            return world[x][y];
+         return world[x][y];
          }
     }
      public boolean shoot(int x, int y, char cha)
@@ -147,6 +144,11 @@ public class World {
                  }
                  else if(world[i][y].wumpus == true)
                  {
+                     world[x][i].wumpus = false;
+                     world[x][i-1].stench = false;
+                     world[x][i+1].stench = false;
+                     world[x+1][i].stench = false;
+                     world[x-1][i].stench = false;
                      return true;
                  }
              }
@@ -161,6 +163,11 @@ public class World {
                  }
                  else if(world[i][y].wumpus == true)
                  {
+                     world[x][i].wumpus = false;
+                     world[x][i-1].stench = false;
+                     world[x][i+1].stench = false;
+                     world[x+1][i].stench = false;
+                     world[x-1][i].stench = false;
                      return true;
                  }
              }
@@ -175,6 +182,11 @@ public class World {
                  }
                  else if(world[x][i].wumpus == true)
                  {
+                     world[x][i].wumpus = false;
+                     world[x][i-1].stench = false;
+                     world[x][i+1].stench = false;
+                     world[x+1][i].stench = false;
+                     world[x-1][i].stench = false;
                      return true;
                  }
              }
@@ -189,6 +201,11 @@ public class World {
                  }
                  else if(world[x][i].wumpus == true)
                  {
+                     world[x][i].wumpus = false;
+                     world[x][i-1].stench = false;
+                     world[x][i+1].stench = false;
+                     world[x+1][i].stench = false;
+                     world[x-1][i].stench = false;
                      return true;
                  }
              }
