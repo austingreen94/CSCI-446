@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -38,9 +37,13 @@ public class World {
         for(int i = 0; i<world.length; i++)
         {
             world[min][i].wall = true;
+            world[min][i].beenThere = true;
             world[max][i].wall = true;
+            world[max][i].beenThere = true;
             world[i][min].wall = true;
+            world[i][min].beenThere = true;
             world[i][max].wall = true;
+            world[i][max].beenThere = true;
         }
     }
     public void buildworld(int n) {
@@ -57,7 +60,7 @@ public class World {
                     world[i-1][j].breeze = true;
                     world[i][j+1].breeze = true;
                     world[i+1][j].breeze = true;
-                    world[i][j+1].breeze = true;
+                    world[i][j-1].breeze = true;
                 } else if (bder >= 10 && bder < 20 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].wumpus = true;
                     wumpy = true;
@@ -70,7 +73,7 @@ public class World {
                 } else if (bder >= 30 && bder < 40 && goldy == false && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].gold = true;
                     goldy = true;
-                    world[i][i].glitter = true;
+                    world[i][j].glitter = true;
                 }
             }
         }
@@ -82,7 +85,7 @@ public class World {
     }
     public void printworld()
     {
-         System.out.println("World is built");
+         //System.out.println("World is built");
         for (int i = 0; i < n + 2; i++) {
             for (int j = 0; j < n + 2; j++) {
                 if(world[i][j].gold== true)
@@ -124,12 +127,12 @@ public class World {
         System.out.println("gold = G, hole =H, wall = O, wumpus = W, and nothing = X");
     }
      public Node travel(int x, int y) {
-         if (world[x][y].wall = true)
+         if (world[x][y].wall == true)
          {
              return null;
          }
          else{
-         return world[x][y];
+            return world[x][y];
          }
     }
      public boolean shoot(int x, int y, char cha)
