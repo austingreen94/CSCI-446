@@ -89,7 +89,7 @@ public class World {
     }
     public void printworld()
     {
-         System.out.println("World is built");
+         //System.out.println("World is built");
         for (int j = 0; j < n + 2; j++) {
             for (int i = 0; i < n + 2; i++) {
                 if(world[i][j].gold== true)
@@ -221,6 +221,7 @@ public class World {
      }
      public void wumpusCornerY(int x, int i)
      {
+         System.out.println("wumpCornY");
          if(!world[i-1][i-1].wumpus && !world[i+1][i-1].wumpus)
                      {
                      world[x][i-1].stench = false;
@@ -240,6 +241,7 @@ public class World {
      }
      public void wumpusCornerX(int y, int i)
      {
+         System.out.println("wumpCornX");
          if(!world[i-1][i-1].wumpus && !world[i+1][i-1].wumpus)
                      {
                      world[i][y-1].stench = false;
