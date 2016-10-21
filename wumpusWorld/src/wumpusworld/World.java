@@ -22,6 +22,7 @@ public class World {
     boolean wumpy = false;
     int min;
     int max;
+    int arrow = 0;
 
     public void startworld(int n) {
         this.n=n;
@@ -69,6 +70,7 @@ public class World {
                     world[i][j+1].stench = true;
                     world[i+1][j].stench = true;
                     world[i-1][j].stench = true;
+                    arrow++;
                 } else if (bder >= 2*prob && bder < 3*prob && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].wall = true;
                 } 
@@ -88,8 +90,8 @@ public class World {
     public void printworld()
     {
          System.out.println("World is built");
-        for (int i = 0; i < n + 2; i++) {
-            for (int j = 0; j < n + 2; j++) {
+        for (int j = 0; j < n + 2; j++) {
+            for (int i = 0; i < n + 2; i++) {
                 if(world[i][j].gold== true)
                 {
                     System.out.print("[G]");
@@ -143,22 +145,22 @@ public class World {
     }
      public boolean shoot(int x, int y, char cha)
      {
+         if (arrow != 0)
+         {
          if(cha == 'E' || cha == 'e')
          {
              for (int i = x; i<max ; i++)
              {
-                 if(world[i][y].wall == true)
-                 {
-                     return false;
-                 }
-                 else if(world[i][y].wumpus == true)
+                 if(world[x][i].wumpus == true)
                  {
                      world[x][i].wumpus = false;
-                     world[x][i-1].stench = false;
-                     world[x][i+1].stench = false;
-                     world[x+1][i].stench = false;
-                     world[x-1][i].stench = false;
+                     wumpusCornerY(i,y);
+                     System.out.println("Screech!");
                      return true;
+                 }
+                 else if(world[x][i].wall == true)
+                 {
+                     return false;
                  }
              }
          }
@@ -166,18 +168,16 @@ public class World {
          {
              for (int i = x; i>min ; i--)
              {
-                 if(world[i][y].wall == true)
-                 {
-                     return false;
-                 }
-                 else if(world[i][y].wumpus == true)
+                 if(world[x][i].wumpus == true)
                  {
                      world[x][i].wumpus = false;
-                     world[x][i-1].stench = false;
-                     world[x][i+1].stench = false;
-                     world[x+1][i].stench = false;
-                     world[x-1][i].stench = false;
+                     wumpusCornerY(i,y);
+                     System.out.println("Screech!");
                      return true;
+                 }
+                 else if(world[x][i].wall == true)
+                 {
+                     return false;
                  }
              }
          }
@@ -185,18 +185,15 @@ public class World {
          {
              for (int i = y; i<max ; i++)
              {
-                 if(world[x][i].wall == true)
-                 {
-                     return false;
-                 }
-                 else if(world[x][i].wumpus == true)
+                 if(world[x][i].wumpus == true)
                  {
                      world[x][i].wumpus = false;
-                     world[x][i-1].stench = false;
-                     world[x][i+1].stench = false;
-                     world[x+1][i].stench = false;
-                     world[x-1][i].stench = false;
-                     return true;
+                     
+                     wumpusCornerX(x,i);
+                 }
+                 else if(world[x][i].wall == true)
+                 {
+                     return false;
                  }
              }
          }
@@ -204,22 +201,61 @@ public class World {
          {
              for (int i = y; i>min ; i--)
              {
-                 if(world[x][i].wall == true)
+                 if(world[x][i].wumpus == true)
+                 {
+                     world[x][i].wumpus = false;
+                     wumpusCornerX(x,i);
+                     System.out.println("Screech!");
+                     return true;
+                 }
+                 else if(world[x][i].wall == true)
                  {
                      return false;
                  }
-                 else if(world[x][i].wumpus == true)
-                 {
-                     world[x][i].wumpus = false;
-                     world[x][i-1].stench = false;
-                     world[x][i+1].stench = false;
-                     world[x+1][i].stench = false;
-                     world[x-1][i].stench = false;
-                     return true;
-                 }
              }
          }
+         }
+         arrow--;
          return false;
+     
+     }
+     public void wumpusCornerY(int x, int i)
+     {
+         if(!world[i-1][i-1].wumpus && !world[i+1][i-1].wumpus)
+                     {
+                     world[x][i-1].stench = false;
+                     }
+                     if(!world[i-1][i+1].wumpus && !world[i+1][i+1].wumpus)
+                     {
+                     world[x][i+1].stench = false;
+                     }
+                     if(!world[i+1][i+1].wumpus && !world[i+1][i-1].wumpus)
+                     {
+                     world[x+1][i].stench = false;
+                     }
+                     if(!world[i-1][i+1].wumpus && !world[i-1][i-1].wumpus)
+                     {
+                     world[x-1][i].stench = false;
+                     }
+     }
+     public void wumpusCornerX(int y, int i)
+     {
+         if(!world[i-1][i-1].wumpus && !world[i+1][i-1].wumpus)
+                     {
+                     world[i][y-1].stench = false;
+                     }
+                     if(!world[i-1][y+1].wumpus && !world[i+1][i+1].wumpus)
+                     {
+                     world[i][y+1].stench = false;
+                     }
+                     if(!world[i+1][y+1].wumpus && !world[i+1][i-1].wumpus)
+                     {
+                     world[i+1][y].stench = false;
+                     }
+                     if(!world[i-1][y+1].wumpus && !world[i-1][i-1].wumpus)
+                     {
+                     world[i-1][y].stench = false;
+                     }
      }
      
 }
