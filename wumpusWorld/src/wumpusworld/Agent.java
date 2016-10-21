@@ -137,6 +137,26 @@ public class Agent {
             askWorld.world[curPoint.x][curPoint.y].player = false;
             myWorld.world[moveTo.x][moveTo.y].player = true;
             askWorld.world[moveTo.x][moveTo.y].player = true;
+            if(curPoint.x<moveTo.x)
+            {
+                direction = 'E';
+                shoot();
+            }
+            else if(curPoint.x>moveTo.x)
+            {
+                direction = 'W';
+                shoot();
+            }
+            else if(curPoint.y<moveTo.y)
+            {
+                direction = 'S';
+                shoot();
+            }
+            else if(curPoint.y<moveTo.y)
+            {
+                direction = 'N';
+                shoot();
+            }
             curPoint = moveTo;
             myWorld.world[curPoint.x][curPoint.y].beenThere = true;
             if(frontier.contains(curPoint)){
@@ -168,6 +188,83 @@ public class Agent {
         }
         if(canAdd){
             frontier.add(toAdd);
+        }
+    }
+    
+    public void shoot()
+    {
+        if(myWorld.world[curPoint.x][curPoint.y].stench && (myWorld.world[curPoint.x+1][curPoint.y+1].stench && myWorld.world[curPoint.x+1][curPoint.y+1].beenThere))
+        {
+            
+            if(myWorld.world[curPoint.x][curPoint.y+1].beenThere)
+            {
+                myWorld.world[curPoint.x+1][curPoint.y].wumpus = true;
+                direction='E'; //N
+                System.out.println("Shooting " + direction);
+                askWorld.shoot(curPoint.x, curPoint.y, direction);
+            }
+            else if(myWorld.world[curPoint.x+1][curPoint.y].beenThere)
+            {
+                myWorld.world[curPoint.x][curPoint.y+1].wumpus = true;
+                direction='S'; //E
+                System.out.println("Shooting " + direction);
+                askWorld.shoot(curPoint.x, curPoint.y, direction);
+            }
+            
+        }
+        if(myWorld.world[curPoint.x][curPoint.y].stench && (myWorld.world[curPoint.x-1][curPoint.y+1].stench && myWorld.world[curPoint.x-1][curPoint.y+1].beenThere))
+        {
+
+            if(myWorld.world[curPoint.x-1][curPoint.y].beenThere)
+            {
+                myWorld.world[curPoint.x][curPoint.y+1].wumpus = true;
+                direction='S'; //E
+                System.out.println("Shooting " + direction);
+                askWorld.shoot(curPoint.x, curPoint.y, direction);
+            }
+            else if(myWorld.world[curPoint.x][curPoint.y+1].beenThere)
+            {
+                myWorld.world[curPoint.x-1][curPoint.y].wumpus = true;
+                direction='W'; //S
+                System.out.println("Shooting " + direction);
+                askWorld.shoot(curPoint.x, curPoint.y, direction);
+            }
+        }
+        if(myWorld.world[curPoint.x][curPoint.y].stench && (myWorld.world[curPoint.x+1][curPoint.y-1].stench && myWorld.world[curPoint.x+1][curPoint.y-1].beenThere))
+        {
+
+            if(myWorld.world[curPoint.x][curPoint.y-1].beenThere)
+            {
+                myWorld.world[curPoint.x+1][curPoint.y].wumpus = true;
+                direction='E'; //N
+                System.out.println("Shooting " + direction);
+                askWorld.shoot(curPoint.x, curPoint.y, direction);
+            }
+            else if(myWorld.world[curPoint.x+1][curPoint.y].beenThere)
+            {
+                myWorld.world[curPoint.x][curPoint.y-1].wumpus = true;
+                direction='N'; //W
+                System.out.println("Shooting " + direction);
+                askWorld.shoot(curPoint.x, curPoint.y, direction);
+            }
+        }
+        if(myWorld.world[curPoint.x][curPoint.y].stench && (myWorld.world[curPoint.x-1][curPoint.y-1].stench && myWorld.world[curPoint.x-1][curPoint.y-1].beenThere))
+        {
+
+            if(myWorld.world[curPoint.x][curPoint.y-1].beenThere)
+            {
+                myWorld.world[curPoint.x-1][curPoint.y].wumpus = true;
+                direction='W'; //S
+                System.out.println("Shooting " + direction);
+                askWorld.shoot(curPoint.x, curPoint.y, direction);
+            }
+            else if(myWorld.world[curPoint.x-1][curPoint.y].beenThere)
+            {
+                myWorld.world[curPoint.x][curPoint.y-1].wumpus = true;
+                direction='N'; //W
+                System.out.println("Shooting " + direction);
+                askWorld.shoot(curPoint.x, curPoint.y, direction);
+            }
         }
     }
     
