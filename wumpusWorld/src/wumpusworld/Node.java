@@ -19,4 +19,6 @@ public class Node {
     
     boolean breeze;
     boolean stench;
+    boolean glitter;
+    boolean beenThere;
 }

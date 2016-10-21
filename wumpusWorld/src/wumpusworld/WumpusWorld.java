@@ -18,7 +18,9 @@ public class WumpusWorld {
         // TODO code application logic here
         World world = new World();
         world.startworld(5);
-        world.buildworld();
+        world.buildworld(5);
+        Agent a = new Agent(world);
+        a.runGame();
     }
     
 }
