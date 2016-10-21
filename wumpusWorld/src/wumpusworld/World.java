@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -38,9 +37,13 @@ public class World {
         for(int i = 0; i<world.length; i++)
         {
             world[min][i].wall = true;
+            world[min][i].beenThere = true;
             world[max][i].wall = true;
+            world[max][i].beenThere = true;
             world[i][min].wall = true;
+            world[i][min].beenThere = true;
             world[i][max].wall = true;
+            world[i][max].beenThere = true;
         }
     }
     public void buildworld(int n) {
@@ -49,34 +52,36 @@ public class World {
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < n; j++) {
                 int bder = random.nextInt(100);
+                int prob = 10;
                 if(i==1&&j==1){
                     world[i][j].player = true;
                 }
-                else if (bder < 10 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
+                else if (bder < prob && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].hole = true;
                     world[i-1][j].breeze = true;
                     world[i][j+1].breeze = true;
                     world[i+1][j].breeze = true;
                     world[i][j-1].breeze = true;
-                } else if (bder >= 10 && bder < 20 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
+                } else if (bder >= prob && bder < 2*prob && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].wumpus = true;
                     wumpy = true;
                     world[i][j-1].stench = true;
                     world[i][j+1].stench = true;
                     world[i+1][j].stench = true;
                     world[i-1][j].stench = true;
-                } else if (bder >= 20 && bder < 30 && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
+                } else if (bder >= 2*prob && bder < 3*prob && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
                     world[i][j].wall = true;
-                } else if (bder >= 30 && bder < 40 && goldy == false && world[i][j].gold == false && world[i][j].hole == false && world[i][j].wumpus == false && world[i][j].wall == false && world[i][j].player==false) {
-                    world[i][j].gold = true;
-                    goldy = true;
-                    world[i][j].glitter = true;
-                }
+                } 
             }
         }
-        if(goldy == false || wumpy == false)
-        {
-            buildworld(n);
+        while(!goldy){
+            int x= random.nextInt(n)+1;
+            int y= random.nextInt(n)+1;
+            if(!world[x][y].hole && !world[x][y].wumpus && !world[x][y].wall && !world[x][y].player){
+                world[x][y].gold = true;
+                goldy = true;
+                world[x][y].glitter = true;
+            }
         }
        printworld();
     }
@@ -113,9 +118,13 @@ public class World {
                 {
                     System.out.print("[S]");
                 }
-                else
+                else if(world[i][j].beenThere== true)
                 {
                     System.out.print("[X]");
+                }
+                else
+                {
+                    System.out.print("[_]");
                 }
                
             }
