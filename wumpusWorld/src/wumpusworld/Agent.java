@@ -30,18 +30,30 @@ public class Agent {
     }
     
     //main method run to find gold. returns score
+            
     public int runGame(){
         //initial starting position
         myWorld.world[1][1] = askWorld.world[1][1];
         myWorld.world[1][1].beenThere = true;
         frontier.add(new Point(1,2));
         frontier.add(new Point(2,1));
-        Point frontierTarget;
+        Point frontierTarget = null;
+        ArrayList<Point> routeTo = new ArrayList<Point>();
         
         while(!myWorld.world[curPoint.x][curPoint.y].glitter){
-            frontierTarget = pickFrontier();
+            if (routeTo.isEmpty()){
+                frontierTarget = pickFrontier();
+                routeTo = findRouteTo(new ArrayList<Point>(), frontierTarget);
+                routeTo = shortenRoute(routeTo);
+                routeTo.remove(0);
+                for(int i = 0; i < routeTo.size(); i++){
+                    System.out.print(" -> "+routeTo.get(i).x+","+routeTo.get(i).y);
+                }
+                System.out.println();
+            }
             
-            attemptMove(frontierTarget);
+            attemptMove(routeTo.get(0));
+            routeTo.remove(0);
             myWorld.printworld();
             System.out.println("curPoint: " + curPoint);
             System.out.println();
@@ -62,6 +74,97 @@ public class Agent {
         return score;
     }
     
+    public ArrayList<Point> findRouteTo(ArrayList<Point> curRoute, Point dest){
+        ArrayList<Point> ans = null;
+        //initial case where we are at the curPoint (ie where the player is)
+        if(curRoute.isEmpty()){
+            curRoute.add(curPoint);
+            return(findRouteTo(curRoute, dest));
+        }
+        //exit case when the last point in the list is the dest
+        else if(curRoute.get(curRoute.size()-1).equals(dest)){
+            //curRoute.remove(0);
+            return curRoute;
+        }
+        //go deeper case
+        else{
+            Point tester = curRoute.get(curRoute.size()-1);
+            if((myWorld.world[tester.x+1][tester.y].beenThere && !myWorld.world[tester.x+1][tester.y].wall && !curRoute.contains(new Point(tester.x+1,tester.y))) || dest.equals(new Point(tester.x+1,tester.y))){
+                curRoute.add(new Point(tester.x+1,tester.y));
+                ans = findRouteTo(curRoute, dest);
+                //failed at this attempt, take out this last add
+                if(ans == null){
+                    curRoute.remove(curRoute.size()-1);
+                }
+                //got an answer!
+                else if(ans.get(ans.size()-1).equals(dest)){
+                    return ans;
+                }
+            }
+            if((myWorld.world[tester.x][tester.y+1].beenThere && !myWorld.world[tester.x][tester.y+1].wall && !curRoute.contains(new Point(tester.x,tester.y+1))) || dest.equals(new Point(tester.x,tester.y+1))){
+                curRoute.add(new Point(tester.x,tester.y+1));
+                ans = findRouteTo(curRoute, dest);
+                //failed at this attempt, take out this last add
+                if(ans == null){
+                    curRoute.remove(curRoute.size()-1);
+                }
+                //got an answer!
+                else if(ans.get(ans.size()-1).equals(dest)){
+                    return ans;
+                }
+            }
+            if((myWorld.world[tester.x][tester.y-1].beenThere && !myWorld.world[tester.x][tester.y-1].wall && !curRoute.contains(new Point(tester.x,tester.y-1))) || dest.equals(new Point(tester.x,tester.y-1))){
+                curRoute.add(new Point(tester.x,tester.y-1));
+                ans = findRouteTo(curRoute, dest);
+                //failed at this attempt, take out this last add
+                if(ans == null){
+                    curRoute.remove(curRoute.size()-1);
+                }
+                //got an answer!
+                else if(ans.get(ans.size()-1).equals(dest)){
+                    return ans;
+                }
+            }
+            if((myWorld.world[tester.x-1][tester.y].beenThere && !myWorld.world[tester.x-1][tester.y].wall && !curRoute.contains(new Point(tester.x-1,tester.y))) || dest.equals(new Point(tester.x-1,tester.y))){
+                curRoute.add(new Point(tester.x-1,tester.y));
+                ans = findRouteTo(curRoute, dest);
+                //failed at this attempt, take out this last add
+                if(ans == null){
+                    curRoute.remove(curRoute.size()-1);
+                }
+                //got an answer!
+                else if(ans.get(ans.size()-1).equals(dest)){
+                    return ans;
+                }
+            }
+        }
+        // failed at all directions here
+        return null;
+    }
+    
+    public ArrayList<Point> shortenRoute(ArrayList<Point> r){
+        //ArrayList<Point> newR = r;
+        for(int i = 0; i<r.size(); i++){
+            for(int j = r.size()-1; j>i+1; j--){
+                //shorten by checking if pieces are one apart & deleteing middlemen
+                if(Math.abs(r.get(i).x-r.get(j).x) == 1 && r.get(i).y == r.get(j).y){
+                    // delete i+1 to j-1
+                    for(int k =i+1; k<j; k++){
+                        r.remove(i+1);
+                    }
+                    j=i;
+                }
+                else if(Math.abs(r.get(i).y-r.get(j).y) == 1 && r.get(i).x == r.get(j).x){
+                    // delete i+1 to j-1
+                    for(int k =i+1; k<j; k++){
+                        r.remove(i+1);
+                    }
+                    j=i;
+                }
+            }
+        }
+        return r;
+    }
     public Point pickFrontier(){
         //Point choice = null;
         ArrayList<Point> safe = new ArrayList<Point>();
