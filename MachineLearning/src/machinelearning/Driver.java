@@ -7,14 +7,15 @@ import java.util.ArrayList;
 public class Driver {
 
     public static void main(String[] args) {
-        // Read in houseTest.txt file
-        ArrayList<Node> allNodes = ReadIn.read("houseTest.txt");
+        //ArrayList<Node> allNodes = ReadIn.read("glass.data.txt");
+        //breast-cancer-wisconsin.data
+        //houseTest
+        ArrayList<Node> allNodes = ReadIn.read("breast-cancer-wisconsin.data.txt");
+        //print all nodes created
         for(int i = 0; i < allNodes.size(); i++){
             allNodes.get(i).print();
         }
-        KNN k = new KNN();
-        // Test for the calculateGain method on a given String attribute
-        //ID3 start = new ID3(in.dataset);
-        //start.calculateGain(start.curDataset, "Budget");
+        KNN k = new KNN(allNodes);
+        k.run();
     }
 }
