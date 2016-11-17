@@ -10,11 +10,15 @@ public class KNN {
     ArrayList<Node> trainSet = new ArrayList<Node>();
     ArrayList<Node> testSet = new ArrayList<Node>();
     int classCol = 10;
+    int ignoredCol =0;
     int totalCorrect =0;
     int totalWrong =0;
+    
     // given the dataSet and then also generates the overall attribute array of arraylists
-    public KNN(ArrayList<Node> newSet){
+    public KNN(ArrayList<Node> newSet, int inClassCol, int inSkip){
         dataSet = newSet;
+        classCol = inClassCol;
+        ignoredCol = inSkip;
         genAttributes();
     }
     
@@ -28,9 +32,10 @@ public class KNN {
             attributes[i] = new ArrayList<String>();
         }
         
-        //populates the array of arraylists with every type of attribute was present
+        //populates the array of arraylists with every type of attribute present
         for(int i =0; i< dataSet.size(); i++){
             for(int j = 0; j<numCol; j++){
+                //System.out.println("i:" + i+" j:"+j);
                 if(!attributes[j].contains(dataSet.get(i).data[j])){
                     attributes[j].add(dataSet.get(i).data[j]);
                 }
@@ -75,9 +80,14 @@ public class KNN {
             splitGroups();
             singleRun();
         }
-        //print overall results
+        printResults();
+    }
+    
+    //print overall results
+    public void printResults(){
         System.out.println("total Correct:"+ totalCorrect);
         System.out.println("total Wrong:"+ totalWrong);
+        System.out.println("Class Col:"+ classCol + " Ignored Col:"+ignoredCol);
     }
     
     //A single Run of the 5x2
@@ -114,10 +124,10 @@ public class KNN {
             //prints out the test node data and the few closest
             System.out.println("Test:");
             testSet.get(i).print();
-            System.out.println("Closest 3:");
-            trainSet.get(nearests[0]).print();
-            trainSet.get(nearests[1]).print();
-            trainSet.get(nearests[2]).print();
+            System.out.println("Closests:");
+            for(int k=0; k<nearests.length; k++){
+                trainSet.get(nearests[k]).print();
+            }
             
             //develops a new array the length of the amount of different attribute types in the class section
             int[] classTypes = new int[attributes[classCol].size()];
@@ -152,11 +162,11 @@ public class KNN {
         int start = 3;
         //moves j or k if they overlap with the classCol this is never part of distance calculation 
         //(since we cannot know the class of the test node
-        if(j == classCol){
+        if(j == classCol || j==ignoredCol){
             j=3;
             start++;
         }
-        else if(k == classCol){
+        else if(k == classCol || k ==ignoredCol){
             k=3;
             start++;
         }
@@ -171,7 +181,7 @@ public class KNN {
         //loops the hypotenuse calculation using the new triangle created
         //from the last distance and the length between the next 2 data points
         for(int i =start; i<n1.data.length; i++){
-            if(i != classCol){
+            if(i != classCol && i != ignoredCol){
                 double n1_i = Double.parseDouble(n1.data[i]);
                 double n2_i = Double.parseDouble(n2.data[i]);
                 dist = Math.hypot(dist, n1_i-n2_i);

@@ -35,9 +35,19 @@ public class ReadIn {
             int row = 0;
             
             //reads next line so long as there is one
-            while((line = br.readLine()) != null){
+            while((line = br.readLine()) != null && !line.equals("")){
                 // Split lines by commas
                 String[] splitString = line.split(",");
+                
+                //if "n"s or "y"s are here then assign those as 0s and 1s
+                for(int i=0; i<splitString.length; i++){
+                    if(splitString[i].equals("y")){
+                        splitString[i] = "1";
+                    }
+                    else if(splitString[i].equals("n")){
+                        splitString[i] = "0";
+                    }
+                }
                 // add node to data set
                 dataset.add(new Node(splitString));
             }

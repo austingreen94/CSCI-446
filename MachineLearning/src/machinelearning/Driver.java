@@ -7,15 +7,26 @@ import java.util.ArrayList;
 public class Driver {
 
     public static void main(String[] args) {
-        //ArrayList<Node> allNodes = ReadIn.read("glass.data.txt");
-        //breast-cancer-wisconsin.data
-        //houseTest
-        ArrayList<Node> allNodes = ReadIn.read("breast-cancer-wisconsin.data.txt");
+        //file name   |    class location   |   attribute to be skipped
+        //breast-cancer-wisconsin.data.txt, class=10, skip = 0
+        //soybean-small.data.txt, 35, -1 (none)
+        //glass.data.txt, 10, 0
+        //house-votes-84.data.txt, 0, -1
+        //iris.data.txt, 4, -1
+        ArrayList<Node> allHouse = ReadIn.read("house-votes-84.data.txt");
+        ArrayList<Node> allGlass = ReadIn.read("glass.data.txt");
+        ArrayList<Node> allCancer = ReadIn.read("breast-cancer-wisconsin.data.txt");
+        ArrayList<Node> allSoybean = ReadIn.read("soybean-small.data.txt");
+        ArrayList<Node> allIris = ReadIn.read("iris.data.txt");
+        
         //print all nodes created
-        for(int i = 0; i < allNodes.size(); i++){
-            allNodes.get(i).print();
+        for(int i = 0; i < allHouse.size(); i++){
+            allHouse.get(i).print();
         }
-        KNN k = new KNN(allNodes);
+        //initializes a KNN algorithm with this set of data, class col location, and skipped col location
+        KNN k = new KNN(allHouse, 0, -1);
         k.run();
+        KNN k2 = new KNN(allGlass, 10, 0);
+        k2.run();
     }
 }
