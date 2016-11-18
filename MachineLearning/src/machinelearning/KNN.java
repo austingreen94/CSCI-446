@@ -67,13 +67,13 @@ public class KNN {
     public void run(){
         
         //prints all the attributes of each column (debugging purposes)
-        for(int i = 0; i<attributes.length; i++){
-            System.out.println("Attribute Col: "+i);
-            for(int j=0; j<attributes[i].size(); j++){
-                System.out.print(attributes[i].get(j)+",");
-            }
-            System.out.println();
-        }
+//        for(int i = 0; i<attributes.length; i++){
+//            System.out.println("Attribute Col: "+i);
+//            for(int j=0; j<attributes[i].size(); j++){
+//                System.out.print(attributes[i].get(j)+",");
+//            }
+//            System.out.println();
+//        }
         
         //perform the runs 5 times (for 5x2)
         for(int i = 0; i<5; i++){

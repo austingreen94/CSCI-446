@@ -77,13 +77,13 @@ public class NaiveBayes {
     public void run() {
 
         //prints all the attributes of each column (debugging purposes)
-        for (int i = 0; i < attributes.length; i++) {
-            System.out.println("Attribute Col: " + i);
-            for (int j = 0; j < attributes[i].size(); j++) {
-                System.out.print(attributes[i].get(j) + ",");
-            }
-            System.out.println();
-        }
+//        for (int i = 0; i < attributes.length; i++) {
+//            System.out.println("Attribute Col: " + i);
+//            for (int j = 0; j < attributes[i].size(); j++) {
+//                System.out.print(attributes[i].get(j) + ",");
+//            }
+//            System.out.println();
+//        }
         //perform the runs 5 times (for 5x2)
         for (int i = 0; i < 5; i++) {
             splitGroups();
@@ -100,93 +100,51 @@ public class NaiveBayes {
     }
 
     public void percents() {
-        classNum = new double[attributes[classCol].size()];
-        double[][] likelihood = new double[attributes[classCol].size()][attributes.length];
-        double[] perdict = new double[attributes.length];
-        double[][] perc = new double[attributes[classCol].size()][attributes.length];
-        //prints all the attributes of each column (debugging purposes)
-        for (int i = 0; i < attributes[classCol].size(); i++) {
-            //System.out.println("Attribute Col: "+i);
-            classNum[i] = 0;
-            for (int j = 0; j < trainSet.size(); j++) {
-                //System.out.print(dataSet.get(j).data[i]);
-                if (trainSet.get(j).data[classCol].equals(attributes[classCol].get(i))) {
-                    classNum[i] += 1;
-                    for (int k = 0; k < attributes.length; k++) {
-                        if (k != classCol && k != ignoredCol) {
-                            likelihood[i][k] += Double.parseDouble(trainSet.get(j).data[k]);
-                            perdict[k] += Double.parseDouble(trainSet.get(j).data[k]);
-                        }
-                        //System.out.println(perdict[k] + " , " + i + " , " + j + " ,    " + likelihood[i][k]);
-                    }
+        //Generate new version of data storage based on how many classes there are
+        // and how many attributes there are and how many types each attribute has
+        int[][][] totals = new int[attributes[classCol].size() + 1][attributes.length + 1][1000];
+        for (int j = 0; j < attributes.length; j++) {
+            for (int k = 0; k < trainSet.size(); k++) {
+                totals[attributes[classCol].indexOf(trainSet.get(k).data[classCol])][j][attributes[j].indexOf(trainSet.get(k).data[j])]++;
 
-                }
-            }
-            //System.out.println();
-            classNum[i] = classNum[i] / trainSet.size();
-            //System.out.println(classNum[i]);
-        }
-        for (int k = 0; k < attributes.length; k++) {
-            perdict[k] = perdict[k] / trainSet.size();
-        }
-        for (int i = 0; i < attributes[classCol].size(); i++) {
-            for (int k = 0; k < attributes.length; k++) {
-                if (k != classCol && k != ignoredCol) {
-                    likelihood[i][k] = likelihood[i][k] / trainSet.size();
-                }
             }
         }
+        double runningTotal = 1;
+        int bestClass = 0;
+        double bestPercent = 0;
 
-        for (int i = 0; i < attributes[classCol].size(); i++) {
-            for (int j = 0; j < attributes.length; j++) {
-                perc[i][j] = likelihood[i][j] / perdict[j];
-                //System.out.println(perdict[j] +" , " + i + " , "+ j + " ,    " + likelihood[i][j]);
-            }
-        }
-        testrun(perc);
-    }
-
-    public void testrun(double[][] perc) {
-        //String[] test = new String[attributes[classCol].size()];
-        double[] totalperc = new double[attributes[classCol].size()];
-
-        for (int l = 0; l < testSet.size(); l++) {
-            int guess = 0;
+        // Run for every node in testSet
+        for (int k = 0; k < testSet.size(); k++) {
+            bestClass = 0;
+            bestPercent = 0;
+            Node tester = testSet.get(k);
+            System.out.println("Answer = " + tester.data[classCol]);
+            //Runs for every type of class in data set
             for (int i = 0; i < attributes[classCol].size(); i++) {
-                totalperc[i] = 1;
-                for (int k = 0; k < attributes.length; k++) {
-                    if (k != classCol && k != ignoredCol) {
-                        if (perc[i][k]*attributes[k].size() < Double.parseDouble(testSet.get(l).data[k])) {
-                            //totalperc[i] = totalperc[i] * (1 - perc[i][k]);
-                            if(perc[i][k]!=0&& perc[i][k]==perc[i][k]){
-                            totalperc[i] = totalperc[i] * perc[i][k];
-                            }
-                        } else {
-                            if(perc[i][k]!=0&& perc[i][k]==perc[i][k]){
-                            totalperc[i] = totalperc[i] * (1 - perc[i][k]);
-                            }
-                            //totalperc[i] = totalperc[i] * perc[i][k];
-                        }
-                            //System.out.println(totalperc[i] + "   ,   " + perc[i][k]);   
+
+                runningTotal = 1;
+                //Multiply running total to create current percentage for i
+                //using product rule with bayes rule
+                for (int j = 0; j < attributes.length; j++) {
+                    if (j != classCol && j != ignoredCol) {
+                        runningTotal = runningTotal * (((double) totals[i][j][attributes[j].indexOf(tester.data[j])] + .001) / totals[i][classCol][i]);
                     }
-                    //System.out.println(totalperc[i]);   
                 }
-                //System.out.println(totalperc[i]);    
-                //totalperc[i] = totalperc[i] * ((double) classNum[i] / trainSet.size());
-            }
-            for (int i = 1; i < attributes[classCol].size(); i++) {
-                if (totalperc[guess] < totalperc[i]) {
-                    guess = i;
+                //multiplying by prior ratio of this class type
+                runningTotal = runningTotal * ((double) totals[i][classCol][i] / trainSet.size());
+                //selects best class choice by highest percentage
+                if (runningTotal > bestPercent) {
+                    bestPercent = runningTotal;
+                    bestClass = i;
                 }
+                System.out.println("Current class [i] = " + runningTotal + "  ,  current best percentage " + bestPercent);
             }
-            if (attributes[classCol].get(guess).equals(testSet.get(l).data[classCol])) {
+            System.out.println("Guess = " + attributes[classCol].get(bestClass));
+            if (tester.data[classCol].equals(attributes[classCol].get(bestClass))) {
                 totalCorrect++;
-                System.out.print((testSet.get(l).data[classCol]));
-                System.out.println("    Correct!");
             } else {
+                System.out.println("Wrong!\n");
                 totalWrong++;
-                System.out.print((testSet.get(l).data[classCol]));
-                System.out.println("    Wrong!");
             }
         }
     }

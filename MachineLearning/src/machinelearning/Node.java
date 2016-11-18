@@ -16,6 +16,10 @@ public class Node {
     public String[] data;
     //arraylist of all the edge this node has with others
     public ArrayList<String> edges = new ArrayList<String>();
+    public int attribute;
+    Node[] children;
+    String leafClass;
+    double decisionPoint = 0;
     
     public Node(){
         
