@@ -14,14 +14,12 @@ public class Driver {
     public static void main(String[] args) {
         char[][] map = ReadIn.read("L-track.txt");
         World w = new World(map);
-        World copyW = w;
-        //w.print();
-        //Agent(world, CrashType, Name
+        //Agent(world, CrashType, Name, [parallel agent])
         //CrashType = 0 : restart at beginning
         //CrashType = 1 : restart at nearest place on track
-        Agent a0 = new Agent(w, 0, "completeRestart");
-        Agent a1 = new Agent (copyW, 1, "nearestRestart", a0);
-        a1.run();
+        Agent a0 = new Agent(w, 1, "completeRestart");
+        //Agent a1 = new Agent (w, 1, "nearestRestart", a0);
+        a0.run();
     }
     
 }
