@@ -17,6 +17,8 @@ public class Agent {
     Agent parallelA = null;
     String name;
     int[] initP = new int[2];
+    
+    ArrayList<int[]> alreadyTested = new ArrayList<int[]>();
 
     public Agent(World w, int crash, String n) {
         world = w;
@@ -34,16 +36,29 @@ public class Agent {
     public void run() {
         //training runs
         ArrayList<int[]> s = world.getChar('F');
-        s.clear();
-        int[] testing = new int[2];
-        testing[0]=5;
-        testing[1] =5;
-        s.add(testing);
-        s = newStartPos(s);
-        System.out.println("size:" +s.size());
-        for (int i = 0; i < s.size(); i++) {
-            world.track[s.get(i)[0]][s.get(i)[1]] = 'T';
+        
+        alreadyTested.addAll(s);
+        //s.clear();
+        //int[] testing = new int[2];
+        //testing[0]=5;
+        //testing[1] =5;
+        //s.add(testing);
+        world.print();
+        int num =0;
+        boolean x=true;
+        while(s.size()>0){
+            s = newStartPos(s);
+            alreadyTested.addAll(s);
+            System.out.println("size:" +s.size());
+            for (int i = 0; i < s.size(); i++) {
+                String str =Integer.toString(num);
+                world.track[s.get(i)[0]][s.get(i)[1]] = str.charAt(str.length()-1);
+            }
+            train(s);
+            num++;
+            world.print();
         }
+        
         //final test run
         startPos();
 //        position[0] = 3;
@@ -68,7 +83,7 @@ public class Agent {
 
     public ArrayList<int[]> newStartPos(ArrayList<int[]> lastStart) {
         ArrayList<int[]> newStartPos = new ArrayList<int[]>();
-        int d = 3;
+        int d = 1;
         for (int i = 0; i < lastStart.size(); i++) {
             
             int test = 0;
@@ -76,20 +91,20 @@ public class Agent {
                 for (int k = -1; k <= 1; k += 2) {
                     for (int k2 = -1; k2 <= 1; k2 += 2) {
                         int[] pos = new int[2];
-                        pos[0] = lastStart.get(i)[0] + (3 * k);
+                        pos[0] = lastStart.get(i)[0] + (d * k);
                         pos[1] = lastStart.get(i)[1] + (j * k2);
                         System.out.println((pos[0]-lastStart.get(i)[0]) +" " +(pos[1]-lastStart.get(i)[1]));
-                        //test = world.crash(pos, lastStart.get(i));
-                        //if (test == 0 ) {
+                        test = world.crash(lastStart.get(i), pos);
+                        if (test == 0 && !contains(newStartPos, pos) && !contains(alreadyTested, pos) && !tooClose(lastStart, pos, d)) {
                             newStartPos.add(pos);
-                        //}
-
-                        pos[0] = lastStart.get(i)[0] + (j * k2);
-                        pos[1] = lastStart.get(i)[1] + (3 * k);
-                        //test = world.crash(pos, lastStart.get(i));
-                        //if (test == 0 ) {
-                            newStartPos.add(pos);
-                        //}
+                        }
+                        int[] pos2 = new int[2];
+                        pos2[0] = lastStart.get(i)[0] + (j * k2);
+                        pos2[1] = lastStart.get(i)[1] + (d * k);
+                        test = world.crash(lastStart.get(i), pos2);
+                        if (test == 0 && !contains(newStartPos, pos2) && !contains(alreadyTested, pos2) && !tooClose(lastStart, pos2, d)) {
+                            newStartPos.add(pos2);
+                        }
                     }
                 }
 
@@ -101,6 +116,34 @@ public class Agent {
         }
 
         return newStartPos;
+    }
+    
+    public boolean contains(ArrayList<int[]> list, int[] point){
+        for(int i=0; i< list.size(); i++){
+            if(list.get(i)[0] == point[0] && list.get(i)[1] == point[1]){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean tooClose(ArrayList<int[]> list, int[] point, int d){
+        for(int i=0; i< list.size(); i++){
+            if(Math.hypot((double)(list.get(i)[0] - point[0]), (double)(list.get(i)[1] - point[1])) <d ){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void train(ArrayList<int[]> positions){
+        for(int i=0; i< positions.size(); i++){
+            trainPoint(positions.get(i));
+        }
+    }
+    
+    public void trainPoint(int[] p){
+        
     }
 
     public void startPos() {

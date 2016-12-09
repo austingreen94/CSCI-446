@@ -47,7 +47,13 @@ public class World {
     }
     
     //0=no crash, 1= # crash, 2= F crash(ie win)
-    public int crash(int[] initP, int[] position){
+    public int crash(int[] p1, int[] p2){
+        int[] initP = new int[2];
+        initP[0] = p1[0];
+        initP[1] = p1[1];
+        int[] position = new int[2];
+        position[0] = p2[0];
+        position[1] = p2[1];
         while(initP[0] != position[0] || initP[1] != position[1]){
             //make one tile movement
             if(initP[0] < position[0]){
@@ -67,7 +73,7 @@ public class World {
             }
             //if lands on an F its a win
             else if(track[initP[0]][initP[1]] == 'F'){
-                track[initP[0]][initP[1]] = 'A';
+                
                 return 2;
             }
         }
