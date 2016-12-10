@@ -38,11 +38,6 @@ public class Agent {
         ArrayList<int[]> s = world.getChar('F');
         
         alreadyTested.addAll(s);
-        //s.clear();
-        //int[] testing = new int[2];
-        //testing[0]=5;
-        //testing[1] =5;
-        //s.add(testing);
         world.print();
         int num =0;
         boolean x=true;
@@ -59,12 +54,11 @@ public class Agent {
             world.print();
         }
         
+        world.clearTrack();
+        world.print();
+        
         //final test run
         startPos();
-//        position[0] = 3;
-//        position[1] = 34;
-//        velocity[0] = -5;
-//        velocity[1] = 0;
         if (parallelA != null) {
             parallelA.startPos();
         }
@@ -93,7 +87,6 @@ public class Agent {
                         int[] pos = new int[2];
                         pos[0] = lastStart.get(i)[0] + (d * k);
                         pos[1] = lastStart.get(i)[1] + (j * k2);
-                        System.out.println((pos[0]-lastStart.get(i)[0]) +" " +(pos[1]-lastStart.get(i)[1]));
                         test = world.crash(lastStart.get(i), pos);
                         if (test == 0 && !contains(newStartPos, pos) && !contains(alreadyTested, pos) && !tooClose(lastStart, pos, d)) {
                             newStartPos.add(pos);

@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public class World {
     char[][] track;
     char[][] cleanTrack;
-    public World(char[][] inTrack){
+    public World(char[][] inTrack, char[][] inTrack2){
         track = inTrack;
-        cleanTrack = inTrack;
+        cleanTrack = inTrack2;
     }
     
     //prints out world
@@ -28,6 +28,15 @@ public class World {
             System.out.println();
         }
         System.out.println();
+    }
+    
+    //clears the world and remakes it as the clean version
+    public void clearTrack(){
+        for(int i = 0; i< track.length; i++){
+            for(int j = 0; j< track[0].length; j++){
+                track[i][j] = cleanTrack[i][j];
+            }
+        }
     }
     
     //give an array list of all characters on the board asked for

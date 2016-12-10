@@ -12,8 +12,10 @@ package racetrack;
 public class Driver {
 
     public static void main(String[] args) {
-        char[][] map = ReadIn.read("L-track.txt");
-        World w = new World(map);
+        char[][] map = ReadIn.read("R-track.txt");
+        char[][] mapClean = ReadIn.read("R-track.txt");
+        World w = new World(map, mapClean);
+        
         //Agent(world, CrashType, Name, [parallel agent])
         //CrashType = 0 : restart at beginning
         //CrashType = 1 : restart at nearest place on track
