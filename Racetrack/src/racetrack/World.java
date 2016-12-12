@@ -89,4 +89,29 @@ public class World {
         // if all else fails then it never crashed. returns 0
         return 0;
     }
+    
+    //initialize the values of the table to be used by the agent
+    public void initializeTable(Table t){
+        for(int i=0; i< t.states.length; i++){
+            for(int j=0; j< t.states[0].length; j++){
+                for(int k=0; k< t.states[0][0].length; k++){
+                    for(int l=0; l< t.states[0][0][0].length; l++){
+                        t.states[i][j][k][l] = new Node(i,j,k-5,l-5);
+                        if(cleanTrack[i][j] == '.' || cleanTrack[i][j] == 'S'){
+                            t.states[i][j][k][l].value = -1;
+                            t.states[i][j][k][l].reward = -1;
+                        }
+                        else if(cleanTrack[i][j] == '#' ){
+                            t.states[i][j][k][l].value = -10;
+                            t.states[i][j][k][l].reward = -10;
+                        }
+                        else if(cleanTrack[i][j] == 'F'){
+                            t.states[i][j][k][l].value = 100;
+                            t.states[i][j][k][l].reward = 100;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

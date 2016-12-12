@@ -11,10 +11,19 @@ package racetrack;
  */
 public class Node {
     double value;
-    static Table t;
+    double reward;
+    int pX;
+    int pY;
+    int vX;
+    int vY;
+    int actionY;
+    int actionX;
     
-    public Node(){
-        
+    public Node(int a, int b, int c, int d){
+        pY = a;
+        pX = b;
+        vY = c;
+        vX = d;
     }
     
 }

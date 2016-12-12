@@ -12,16 +12,17 @@ package racetrack;
 public class Driver {
 
     public static void main(String[] args) {
-        char[][] map = ReadIn.read("R-track.txt");
-        char[][] mapClean = ReadIn.read("R-track.txt");
+        char[][] map = ReadIn.read("O-track.txt");
+        char[][] mapClean = ReadIn.read("O-track.txt");
         World w = new World(map, mapClean);
         
         //Agent(world, CrashType, Name, [parallel agent])
         //CrashType = 0 : restart at beginning
         //CrashType = 1 : restart at nearest place on track
-        Agent a0 = new Agent(w, 1, "completeRestart");
-        //Agent a1 = new Agent (w, 1, "nearestRestart", a0);
-        a0.run();
+        Agent a = new Agent(w, 1, "main");
+        Agent a0 = new Agent(w, 0, "completeRestart");
+        Agent a1 = new Agent (w, 1, "nearestRestart", a0);
+        a.run();
     }
     
 }
